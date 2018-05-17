@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  link(rel = 'stylesheet' href = '/stylesheets/login.css')
+  script(src = '/javascripts/login.js')
+  form(class = 'form-signin', action='/admin/login', method='post')
+    h1(class = 'title') Please sign in
+    div(class = 'username-div')
+      label(for = 'username', class = 'sr-only') Username
+      input(type = 'text', id = 'username', name = 'username', class = 'form-control', placeholder = 'Username', required = '', autofocus = '')
+    div(class = 'password-div')
+      label(for = 'password', class = "sr-only") Username
+      input(type = 'password', id = 'password', name = 'password', class = 'form-control', placeholder = 'Password', required = '')
+    button(class = 'btn btn-lg btn-primary btn-block', type = 'submit') Sign in
+    - if (error)
+      div(class='alert alert-danger', role='alert')
+        strong #{error}
+    - if (success)
+      div(class='alert alert-success', role='alert')
+        strong #{success}
