@@ -1,0 +1,57 @@
+extends ../layouts/_layout.pug
+
+block variables
+  - var activePage = 'basic-table'
+  - var activeGroup = 'tables'
+
+block title
+  title Users
+
+block content
+  .app-title
+    div
+      h1
+        i.fa.fa-th-list
+        |  Users
+
+    ul.app-breadcrumb.breadcrumb
+      li.breadcrumb-item
+        i.fa.fa-home.fa-lg
+      li.breadcrumb-item
+        | Tables
+      li.breadcrumb-item.active
+        a(href="#") Users
+  .row
+    .col-md-12
+      .tile
+        .table-responsive
+          table.table
+            thead
+              tr
+                th # 
+                th IP Address
+                th Mac Address
+                th Gateway ID
+                th Token
+                th Incomming
+                th Outcomming
+                
+            tbody
+              tr
+                td 0
+                td 192.168.2.168
+                td 7c:04:d0:d8:20:b2
+                td 24660045
+                td 789
+                td 3874503
+                td 597098
+                
+              tr
+                td 1
+                td 192.168.2.201
+                td 8c:45:00:31:07:d4
+                td 24660045
+                td 789
+                td 208323
+                td 183237
+              

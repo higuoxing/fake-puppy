@@ -9,25 +9,25 @@ aside.app-sidebar
 
 	ul.app-menu
 		li
-			a.app-menu__item(href='/admin/panel' class={'active': activePage == 'dashboard'})
+			a.app-menu__item(href='/admin/panel' class={'active': activePage == 'panel'})
 				i.app-menu__icon.fa.fa-dashboard
 				span.app-menu__label Dashboard
 
-		li.treeview(class={'is-expanded': activeGroup == 'ui-elements'})
+		li.treeview(class={'is-expanded': activeGroup == 'users'})
 			a.app-menu__item(href='#', data-toggle='treeview')
 				i.app-menu__icon.fa.fa-users
 				span.app-menu__label Users
 				i.treeview-indicator.fa.fa-angle-right
 			ul.treeview-menu
 				li
-					a.treeview-item(href='bootstrap-components.html' class={'active': activePage == 'ui-bootstrap'})
+					a.treeview-item(href='/admin/user' class={'active': activePage == 'user'})
 						i.icon.fa.fa-circle-o
 						|  Total Users
 				li
-					a.treeview-item(href='https://fontawesome.com/v4.7.0/icons/', target="_blank", rel="noopener")
+					a.treeview-item(href='/admin/user' class={'active': activePage == 'user'})
 						i.icon.fa.fa-circle-o
 						|  Online Users
 		li
-			a.app-menu__item(href='charts.html' class={'active': activePage == 'charts'})
+			a.app-menu__item(href='/admin/device' class={'active': activePage == 'device'})
 				i.app-menu__icon.fa.fa-wifi
 				span.app-menu__label Devices
