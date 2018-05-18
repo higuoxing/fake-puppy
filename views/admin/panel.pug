@@ -1,4 +1,85 @@
-extends ../layout
+extends ../layouts/_layout.pug
+
+block variables
+  - var activePage = 'dashboard'
+  - var activeGroup = 'none'
 
 block content
-  p panel
+  .app-title
+    div
+      h1
+        i.fa.fa-dashboard
+        |  Fake Puppy
+      p Auth server dashboard for wifi-dog
+
+    ul.app-breadcrumb.breadcrumb
+      li.breadcrumb-item
+        i.fa.fa-home.fa-lg
+      li.breadcrumb-item
+        a(href='#') Dashboard
+
+  .row
+    .col-md-6.col-lg-3
+      .widget-small.primary.coloured-icon
+        i.icon.fa.fa-users.fa-3x
+        div.info
+          a(href = '/admin/qrcode').h4 Total Guests
+          p
+            b 25
+
+    .col-md-6.col-lg-3
+      .widget-small.info.coloured-icon
+        i.icon.fa.fa-users.fa-3x
+        div.info
+          a(href = '/admin/devices').h4 Oneline Guests
+          p
+            b 5
+
+    .col-md-6.col-lg-3
+      .widget-small.warning.coloured-icon
+        i.icon.fa.fa-wifi.fa-3x
+        div.info
+          a(href = '/admin/devices').h4 My Devices
+          p
+            b 10
+
+    .col-md-6.col-lg-3
+      .widget-small.danger.coloured-icon
+        i.icon.fa.fa-qrcode.fa-3x
+        div.info
+          a(href = '/admin/qrcode').h4 Share NetWork
+
+  .row
+
+    .col-md-6
+      .tile
+        h3.tile-title 完成的功能
+
+        ul
+          li OpenWRT 环境搭建
+          li LUCI 应用安装
+          li wifi-dog 的认证服务 fake-puppy
+          li 二维码生成
+
+        p.mt-4.mb-4
+          a.btn.btn-primary.mr-2.mb-2(href="http://pratikborsadiya.in/blog/vali-admin", target="_blank")
+            i.fa.fa-file
+            | Docs
+          a.btn.btn-info.mr-2.mb-2(href="https://github.com/pratikborsadiya/vali-admin", target="_blank")
+            i.fa.fa-github
+            | GitHub
+          a.btn.btn-success.mr-2.mb-2(href="https://github.com/pratikborsadiya/vali-admin/archive/master.zip", target="_blank")
+            i.fa.fa-download
+            | Download
+
+
+    .col-md-6
+      .tile
+        h3.tile-title 其他文档
+        p This theme is not built for a specific framework or technology like Angular or React etc. But due to it's modular nature it's very easy to incorporate it into any front-end or back-end framework like Angular, React or Laravel.
+
+        p Go to #[a(href="http://pratikborsadiya.in/blog/vali-admin", target="_blank") documentation] for more details about integrating this theme with various frameworks.
+
+        p The source code is available on GitHub. If anything is missing or weird please report it as an issue on #[a(href="https://github.com/pratikborsadiya/vali-admin", target="_blank") GitHub]. If you want to contribute to this theme pull requests are always welcome.
+
+block specific-js

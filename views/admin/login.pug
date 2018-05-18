@@ -1,20 +1,45 @@
-extends ../layout
+doctype html
+html
+  head
+    include ../includes/_head.pug
+    title Login
 
-block content
-  link(rel = 'stylesheet' href = '/stylesheets/login.css')
-  script(src = '/javascripts/login.js')
-  form(class = 'form-signin', action='/admin/login', method='post')
-    h1(class = 'title') Please sign in
-    div(class = 'username-div')
-      label(for = 'username', class = 'sr-only') Username
-      input(type = 'text', id = 'username', name = 'username', class = 'form-control', placeholder = 'Username', required = '', autofocus = '')
-    div(class = 'password-div')
-      label(for = 'password', class = "sr-only") Username
-      input(type = 'password', id = 'password', name = 'password', class = 'form-control', placeholder = 'Password', required = '')
-    button(class = 'btn btn-lg btn-primary btn-block', type = 'submit') Sign in
-    - if (error)
-      div(class='alert alert-danger', role='alert')
-        strong #{error}
-    - if (success)
-      div(class='alert alert-success', role='alert')
-        strong #{success}
+  body
+    link(rel = 'stylesheet' href = '/stylesheets/main.css')
+    section.material-half-bg
+      .cover
+
+    section.login-content
+      //- .logo: h1 嘿嘿嘿
+
+      .login-box
+        form.login-form(action = '/admin/login', method = 'post')
+          h3.login-head
+            i.fa.fa-lg.fa-fw.fa-user
+            | SIGN IN
+          .form-group
+            label.control-label USERNAME
+            input.form-control(type = 'text', name = 'username', placeholder = 'Username', required = '', autofocus = '')
+
+          .form-group
+            label.control-label PASSWORD
+            input.form-control(type = 'password', name = 'password', placeholder = 'Password', required = '', autofocus = '')
+
+          .form-group
+            .utility
+              .animated-checkbox
+                label
+                  input(type = 'checkbox', name = 'rememberme')
+                  span.label-text Stay Signed in
+
+          .form-group.btn-container
+            button(type = 'submit').btn.btn-primary.btn-block
+              i.fa.fa-sign-in.fa-lg.fa-fw
+              | SIGN IN
+      .alert-wrapper-div(style = 'min-width: 350px')
+        - if (error)
+            div(class='alert alert-danger', role='alert')
+              strong #{error}
+        - if (success)
+            div(class='alert alert-success', role='alert')
+              strong #{success}

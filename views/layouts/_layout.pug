@@ -1,0 +1,50 @@
+doctype html
+html(lang="en")
+
+  //- Variables to set active page in sidebar
+  block variables
+    - var activePage = 'dashboard'
+    - var activeGroup = 'none'
+
+  head
+    title= 'TJP-MVP'
+    script(src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin = 'anonymous')
+    script(src = 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js', integrity = 'sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ', crossorigin = 'anonymous')
+    script(src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js', integrity = 'sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm', crossorigin = 'anonymous')
+    link(rel = 'stylesheet' href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css' integrity = 'sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4' crossorigin = 'anonymous')
+    meta(name="description", content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.")
+
+    // Twitter meta
+    meta(property="twitter:card", content="summary_large_image")
+    meta(property="twitter:site", content="@pratikborsadiya")
+    meta(property="twitter:creator", content="@pratikborsadiya")
+
+    // Open Graph Meta
+    meta(property="og:type", content="website")
+    meta(property="og:site_name", content="Fake Puppy")
+    meta(property="og:title", content="Fake Pupy - Auth server for wifi-dog")
+    meta(property='og:url', content='http://pratikborsadiya.in/blog/vali-admin')
+    meta(property='og:image', content='http://pratikborsadiya.in/blog/vali-admin/hero-social.png')
+    meta(property="og:description", content="Fake puppy is an open source auth server for wifi-dog")
+
+    block title
+      title Fake Puppy - Auth server for wifi-dog
+
+    include ../includes/_head.pug
+
+  body.app.sidebar-mini.rtl
+
+    // Navbar
+    include ../includes/_header.pug
+
+    // Sidebar menu
+    include ../includes/_sidebar.pug
+
+    main.app-content
+      block content
+
+    //- Javascripts
+    include ../includes/_javascript.pug
+    
+    // Page specific javascripts
+    block specific-js

@@ -17,12 +17,12 @@ router.post('/', async (req, res, next) => {
   if (!(username && password)) {
     req.flash('error', 'Please input username and password');
   } else {
-    if (await check_admin({ username: username })) {
+    if (await check_admin({ username: username, password: password })) {
       req.session.user = 'admin';
       req.flash('success', 'Welcome ~');
       res.redirect('/admin/panel');
     } else {
-      req.flash('error', 'incorrect username or password :( ');
+      req.flash('error', 'Incorrect username or password :( ');
       res.redirect('/admin/login');
     }
   }

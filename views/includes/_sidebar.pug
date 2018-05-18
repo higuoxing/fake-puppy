@@ -1,0 +1,33 @@
+.app-sidebar__overlay(data-toggle="sidebar")
+aside.app-sidebar
+
+	.app-sidebar__user
+		//- img.app-sidebar__user-avatar(src='https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg', alt='User Image')
+		div
+			p.app-sidebar__user-name Admin
+			p.app-sidebar__user-designation Welcome ~
+
+	ul.app-menu
+		li
+			a.app-menu__item(href='/admin/panel' class={'active': activePage == 'dashboard'})
+				i.app-menu__icon.fa.fa-dashboard
+				span.app-menu__label Dashboard
+
+		li.treeview(class={'is-expanded': activeGroup == 'ui-elements'})
+			a.app-menu__item(href='#', data-toggle='treeview')
+				i.app-menu__icon.fa.fa-users
+				span.app-menu__label Users
+				i.treeview-indicator.fa.fa-angle-right
+			ul.treeview-menu
+				li
+					a.treeview-item(href='bootstrap-components.html' class={'active': activePage == 'ui-bootstrap'})
+						i.icon.fa.fa-circle-o
+						|  Total Users
+				li
+					a.treeview-item(href='https://fontawesome.com/v4.7.0/icons/', target="_blank", rel="noopener")
+						i.icon.fa.fa-circle-o
+						|  Online Users
+		li
+			a.app-menu__item(href='charts.html' class={'active': activePage == 'charts'})
+				i.app-menu__icon.fa.fa-wifi
+				span.app-menu__label Devices

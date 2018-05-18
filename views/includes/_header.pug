@@ -1,0 +1,30 @@
+header.app-header
+	a.app-header__logo(href='index.html') Fake Puppy
+
+	// Sidebar toggle button
+	a.app-sidebar__toggle(href='#', data-toggle='sidebar', aria-label="Hide Sidebar")
+
+	// Navbar Right Menu
+	ul.app-nav
+
+		li.app-search
+			input.app-search__input(type="search", placeholder="Search")
+			button.app-search__button: i.fa.fa-search
+
+		// User Menu
+		li.dropdown
+			a.app-nav__item(href='#', data-toggle='dropdown' aria-label="Open Profile Menu")
+				i.fa.fa-user.fa-lg
+			ul.dropdown-menu.settings-menu.dropdown-menu-right
+				li
+					a.dropdown-item(href='page-user.html')
+						i.fa.fa-cog.fa-lg
+						|  Settings
+				li
+					a.dropdown-item(href='page-user.html')
+						i.fa.fa-user.fa-lg
+						|  Profile
+				li
+					a.dropdown-item(href='page-login.html')
+						i.fa.fa-sign-out.fa-lg
+						|  Logout
