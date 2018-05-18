@@ -37,14 +37,28 @@ block content
                 th Wifi-dog Uptime
                 th -
                 
-            tbody
-              tr
-                td 0
-                td 24660045
-                td 4080
-                td 99252
-                td 0.00
-                td 602
-                td
-                  a(href = '#') view users
-              
+                - if (devices) {
+                    tbody
+                -     devices.forEach((device, index) => {
+                        tr
+                          td #{index}
+                          td #{device.gw_id}
+                          td #{device.sys_uptime}
+                          td #{device.sys_memfree}
+                          td #{device.sys_load}
+                          td #{device.wifidog_uptime}
+                          td
+                            a(href = '#') view users
+                -     })
+                - }
+            //- tbody
+            //-   tr
+            //-     td 0
+            //-     td 24660045
+            //-     td 4080
+            //-     td 99252
+            //-     td 0.00
+            //-     td 602
+            //-     td
+            //-       a(href = '#') view users
+            //- 

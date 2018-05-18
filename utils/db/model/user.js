@@ -10,10 +10,10 @@ db.once('open', (callback) => {
 
 // construct schema
 const user_schema = new mongoose.Schema({
-  mac_addr: { type: String, unique: true },
-  ip_addr: { type: String, unique: true },
+  mac_addr: { type: String },
+  ip_addr: { type: String },
   token: { type: String, unique: true },       // token
-  state: { type: String },                 // activate
+  state: { type: String },                     // activate
   gw_id: { type: String },
   incoming: { type: Number },
   outgoing: { type: Number }
