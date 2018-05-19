@@ -19,7 +19,7 @@ const _pong = async (ping_msg) => {
       'devices.gw_id': gw_id, devices: { '$size': 1 }
     }, _ping_msg).exec();
 
-    return 'pong';
+    return 'Pong';
   } else {
     return 'sorry';
   }
