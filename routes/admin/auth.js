@@ -6,7 +6,6 @@ const check_admin_login = require('../../middlewares/check_login').check_admin_l
 
 router.get('/kickout', check_admin_login, async (req, res, next) => {
   let _token = req.query.token;
-  console.log(_token);
 
   // query and update state => pending
   await user_model.findOneAndUpdate({ token: _token }, { state: 'pending' });
@@ -21,6 +20,12 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
   await user_model.remove({ token: _token }).exec();
 
   res.redirect('/admin/user');
+});
+
+router.post('/auth', async (req, res, next) => {
+  let _token = req.body.token;
+  let url = `http://192.168.2.1:2060/wifidog/auth?token=${_token}`;
+  res.redirect(url);
 });
 
 module.exports = router

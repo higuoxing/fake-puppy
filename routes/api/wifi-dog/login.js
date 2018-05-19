@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  res.send('auth');
+  res.render('wifi-dog/login');
 });
 
 module.exports = router

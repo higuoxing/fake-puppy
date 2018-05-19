@@ -68,6 +68,10 @@ block content
       .tile
         h3.title QR-Code for Guests
         p Swap me to get access to network :)
+          br 
+          - if (qrcode)
+              strong Auth Token: #{qrcode.token}
+          br
           - if (qrcode)
               img(src = qrcode.qrcode, class = 'card-img-top', alt = 'Card image cap')
 

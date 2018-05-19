@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    include ../includes/_head.pug
+    title Login
+
+  body
+    link(rel = 'stylesheet' href = '/stylesheets/main.css')
+    section.material-half-bg
+      .cover
+
+    section.login-content
+
+      .login-box
+        form.login-form(action = '/admin/auth/auth', method = 'post')
+          h3.login-head
+            i.fa.fa-lg.fa-fw.fa-user
+            | SIGN IN
+            
+          .form-group
+            label.control-label Token
+            input.form-control(type = 'text', name = 'token', placeholder = 'Token', required = '', autofocus = '')
+
+          .form-group.btn-container
+            button(type = 'submit').btn.btn-primary.btn-block
+              i.fa.fa-sign-in.fa-lg.fa-fw
+              | SIGN IN
+      .alert-wrapper-div(style = 'min-width: 350px')
+        - if (error)
+            div(class='alert alert-danger', role='alert')
+              strong #{error}
+        - if (success)
+            div(class='alert alert-success', role='alert')
+              strong #{success}
