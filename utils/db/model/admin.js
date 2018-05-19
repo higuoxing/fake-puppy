@@ -10,8 +10,6 @@ db.once('open', (callback) => {
 
 const device_schema = new mongoose.Schema({
   gw_id: { type: String, require: true, unique: true },
-  gw_addr: { type: String },
-  gw_port: { type: String },
   sys_uptime: { type: Number },
   sys_memfree: { type: Number },
   sys_load: { type: Number },
