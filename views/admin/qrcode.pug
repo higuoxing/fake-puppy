@@ -25,7 +25,11 @@ block content
         div.info
           a(href = '/admin/user').h4 Total Guests
           p
-            b 25
+            - if (index_info) {
+                b #{index_info.total_user}
+            - } else {
+                b 0
+            - };
 
     .col-md-6.col-lg-3
       .widget-small.info.coloured-icon
@@ -33,7 +37,12 @@ block content
         div.info
           a(href = '/admin/user').h4 Oneline Guests
           p
-            b 5
+            - if (index_info) {
+                b #{index_info.total_user}
+            - } else {
+                b 0
+            - };
+            
 
     .col-md-6.col-lg-3
       .widget-small.warning.coloured-icon
@@ -41,7 +50,12 @@ block content
         div.info
           a(href = '/admin/device').h4 My Devices
           p
-            b 10
+            - if (index_info) {
+                b #{index_info.total_device}
+            - } else {
+                b 0
+            - };
+  
 
     .col-md-6.col-lg-3
       .widget-small.danger.coloured-icon
