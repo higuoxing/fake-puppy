@@ -1,18 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const admin_model = require('../../utils/db/model/admin');
-const check_admin = require('../../utils/admin/login').check_admin;
+const user_model = require('../../utils/db/model/user');
 const check_admin_login = require('../../middlewares/check_login').check_admin_login;
 
-router.get('/', async (req, res, next) => {
-  if (req.session.user === 'admin') {
-    let admin = await admin_model.findOne({ username: 'admin' }).exec();
-    let _devices = admin.devices;
-    res.render('admin/device', { devices: _devices });
-  } else {
-    res.render('admin/login');
-  }
+router.get('/kickout', check_admin_login, async (req, res, next) => {
+  let _token = req.query.token;
+  console.log(_token);
+
+  // query and update state => pending
+  await user_model.findOneAndUpdate({ token: _token }, { state: 'pending' });
+
+  res.redirect('/admin/user')
 });
 
+router.get('/remove', check_admin_login, async (req, res, next) => {
+  let _token = req.query.token;
+
+  // query and remove
+  await user_model.remove({ token: _token }).exec();
+
+  res.redirect('/admin/user');
+});
 
 module.exports = router

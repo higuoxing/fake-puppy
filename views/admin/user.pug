@@ -33,8 +33,10 @@ block content
                 th Mac Address
                 th Gateway ID
                 th Token
-                th Incomming
-                th Outcomming
+                th Incoming
+                th Outgoing
+                th Operation
+                th -
                 
             tbody
               - if (users) {
@@ -47,23 +49,9 @@ block content
                       td #{user.token}
                       td #{user.incoming}
                       td #{user.outgoing}
+                      td
+                        a(href = `/admin/auth/kickout?token=${user.token}`) Kick out
+                      td
+                        a(href = `/admin/auth/remove?token=${user.token}`) Remove  
               -   });
               - }
-              //- tr
-              //-   td 0
-              //-   td 192.168.2.168
-              //-   td 7c:04:d0:d8:20:b2
-              //-   td 24660045000
-              //-   td 789
-              //-   td 3874503
-              //-   td 597098
-              //- 
-              //- tr
-              //-   td 1
-              //-   td 192.168.2.201
-              //-   td 8c:45:00:31:07:d4
-              //-   td 24660045000
-              //-   td 789
-              //-   td 208323
-              //-   td 183237
-              //- 

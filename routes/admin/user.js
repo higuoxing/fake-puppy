@@ -9,5 +9,4 @@ router.get('/', check_admin_login, async (req, res, next) => {
   res.render('admin/user', { users: _users });
 });
 
-
 module.exports = router
