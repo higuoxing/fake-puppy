@@ -24,8 +24,8 @@ const _auth = async (auth_req_msg) => {
       // token has been taken
       return 'Auth: 0';
     }
-  } else if (auth_req_msg.stage === 'counter') {
-    // counter branch
+  } else if (auth_req_msg.stage === 'counters') {
+    // counters branch
     // update db and return 1;
     let user = await user_model.findOne({ token: auth_req_msg.token }).exec();
     if (user) {
