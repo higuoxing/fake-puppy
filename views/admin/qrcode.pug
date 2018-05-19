@@ -25,8 +25,8 @@ block content
         div.info
           a(href = '/admin/user').h4 Total Guests
           p
-            - if (index_info) {
-                b #{index_info.total_user}
+            - if (qrcode) {
+                b #{qrcode.index_info.total_user}
             - } else {
                 b 0
             - };
@@ -37,21 +37,20 @@ block content
         div.info
           a(href = '/admin/user').h4 Oneline Guests
           p
-            - if (index_info) {
-                b #{index_info.total_user}
+            - if (qrcode) {
+                b #{qrcode.index_info.total_user}
             - } else {
                 b 0
             - };
             
-
     .col-md-6.col-lg-3
       .widget-small.warning.coloured-icon
         i.icon.fa.fa-wifi.fa-3x
         div.info
           a(href = '/admin/device').h4 My Devices
           p
-            - if (index_info) {
-                b #{index_info.total_device}
+            - if (qrcode) {
+                b #{qrcode.index_info.total_device}
             - } else {
                 b 0
             - };

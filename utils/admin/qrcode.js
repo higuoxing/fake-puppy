@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const user_model = require('../db/model/user');
+const get_index_info = require('./panel').get_index_info;
 
 const _gen_qrcode = async () => {
   let qrCode = require('qrcode');
@@ -29,7 +30,9 @@ const _gen_qrcode = async () => {
     });
   }
 
-  return { qrcode: await qrCode.toDataURL(url), url: url };
+  let _index_info = await get_index_info();
+
+  return { qrcode: await qrCode.toDataURL(url), url: url, index_info: _index_info };
 }
 
 module.exports = {
