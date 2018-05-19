@@ -5,7 +5,7 @@ const _pong = async (ping_msg) => {
   let gw_id = ping_msg.gw_id;
   let device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': gw_id }).exec();
   if (device) {
-    
+
     // construct device msg
     const _ping_msg = {
       'devices.$.sys_uptime': ping_msg.sys_uptime ? ping_msg.sys_uptime : device.devices[0].sys_uptime,
@@ -21,7 +21,7 @@ const _pong = async (ping_msg) => {
 
     return 'Pong';
   } else {
-    return 'sorry';
+    return 'Sorry';
   }
 }
 
