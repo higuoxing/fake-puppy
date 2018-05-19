@@ -22,8 +22,8 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
   res.redirect('/admin/user');
 });
 
-router.post('/auth', async (req, res, next) => {
-  let _token = req.body.token;
+router.get('/auth', async (req, res, next) => {
+  let _token = req.query.token;
   let url = `http://192.168.2.1:2060/wifidog/auth?token=${_token}`;
   res.redirect(url);
 });
