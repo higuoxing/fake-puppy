@@ -17,6 +17,6 @@
     "nodemon": "^1.17.4",
     "pug": "2.0.0-beta11",
     "qrcode": "^1.2.0",
-    "socket.io": "^2.1.0"
+    "socket.io": "^2.1.1"
   }
 }

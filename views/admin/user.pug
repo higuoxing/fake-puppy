@@ -24,6 +24,9 @@ block content
   .row
     .col-md-12
       .tile
+        p 233
+    .col-md-12
+      .tile
         .table-responsive
           table.table
             thead
@@ -52,8 +55,8 @@ block content
                       td #{user.mac_addr}
                       td #{user.gw_id}
                       td #{user.token}
-                      td #{user.incoming}
-                      td #{user.outgoing}
+                      td #{user.incoming[user.incoming.length-1]}
+                      td #{user.outgoing[user.outgoing.length-1]}
                       td
                         a(href = `/admin/auth/kickout?token=${user.token}`) Kick out
                       td
@@ -63,4 +66,16 @@ block content
                   tr
                     td Oops, no user yet!
               - }
-              
+
+block specific-js
+  - let socket_addr = socket_conf.addr;
+  script.
+    const socket = io.connect('#{socket_addr}');
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    });
+    
+    
+        
+        

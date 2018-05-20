@@ -5,5 +5,8 @@ module.exports = {
     secret: 'fake-puppy',
     resave: true,
     maxAge: 2592000000,
+  },
+  socket_conf: {
+    addr: 'http://localhost:3000'
   }
 }

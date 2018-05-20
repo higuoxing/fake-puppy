@@ -8,6 +8,7 @@ const app = require('../app');
 const debug = require('debug')('fake-puppy:server');
 const http = require('http');
 const configs = require('../configs/default');
+const socket_router = require('../sockets/socket').socket_router;
 
 /**
  * Get port from environment and store in Express.
@@ -16,11 +17,10 @@ const configs = require('../configs/default');
 const port = normalizePort(process.env.PORT || configs.port);
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
+// HTTP server
+// Socket.IO
 const server = http.createServer(app);
+const io = require('socket.io')(server);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -89,3 +89,7 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+io.on('connection', function (socket) {
+  socket_router(socket);
+});
