@@ -11,6 +11,7 @@ router.get('/active', check_admin_login, async (req, res, next) => {
 
 router.get('/all', check_admin_login, async (req, res, next) => {
   let _users = await user_model.find({ '$or': [{ state: 'activate' }, { state: 'pending' }] }).exec();
+  console.log(_users);
   res.render('admin/user', { users: _users });
 });
 

@@ -28,8 +28,8 @@ const _gen_qrcode = async () => {
       token: _hash,
       state: 'pending',
       gw_id: '',
-      incoming: 0,
-      outgoing: 0
+      incoming: [ 0 ],
+      outgoing: [ 0 ]
     });
   }
 

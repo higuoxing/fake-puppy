@@ -15,8 +15,8 @@ const user_schema = new mongoose.Schema({
   token: { type: String, unique: true },       // token
   state: { type: String },                     // activate
   gw_id: { type: String },
-  incoming: { type: Number },
-  outgoing: { type: Number }
+  incoming: [ Number ],
+  outgoing: [ Number ]
 });
 
 const user_model = mongoose.model('user', user_schema, 'user');

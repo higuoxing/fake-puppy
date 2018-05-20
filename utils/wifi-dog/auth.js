@@ -13,8 +13,10 @@ const _auth = async (auth_req_msg) => {
         mac_addr: auth_req_msg.mac,
         ip_addr: auth_req_msg.ip,
         state: 'activate',
-        incoming: auth_req_msg.incoming,
-        outgoing: auth_req_msg.outgoing,
+
+        // initialise array
+        incoming: [ auth_req_msg.incoming ],
+        outgoing: [ auth_req_msg.outgoing ],
         gw_id: auth_req_msg.gw_id
       }
 
@@ -33,8 +35,10 @@ const _auth = async (auth_req_msg) => {
         mac_addr: auth_req_msg.mac,
         ip_addr: auth_req_msg.ip,
         state: 'activate',
-        incoming: auth_req_msg.incoming,
-        outgoing: auth_req_msg.outgoing,
+
+        // push and update array
+        incoming: user.incoming.push(auth_req_msg.incoming),
+        outgoing: user.outgoing.push(auth_req_msg.outgoing),
         gw_id: auth_req_msg.gw_id
       }
       await user_model.findOneAndUpdate({ token: auth_req_msg.token }, _user_update).exec();
@@ -49,8 +53,8 @@ const _auth = async (auth_req_msg) => {
         mac_addr: '',
         ip_addr: '',
         state: 'pending',
-        incoming: '',
-        outgoing: '',
+        incoming: [ /* empty array */ ],
+        outgoing: [ /* empty array */ ],
         gw_id: ''
       }
       await user_model.findOneAndUpdate({ token: auth_req_msg.token }, _user_update).exec();
