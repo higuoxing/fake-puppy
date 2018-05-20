@@ -37,7 +37,7 @@ block content
                 th Wifi-dog Uptime
                 th -
                 
-                - if (devices) {
+                - if (devices.length > 0) {
                     tbody
                 -     devices.forEach((device, index) => {
                         tr
@@ -50,15 +50,7 @@ block content
                           td
                             a(href = `/admin/user/device?gw_id=${device.gw_id}`) view users
                 -     })
+                - } else {
+                    tr
+                      td Oops, no device yet!
                 - }
-            //- tbody
-            //-   tr
-            //-     td 0
-            //-     td 24660045
-            //-     td 4080
-            //-     td 99252
-            //-     td 0.00
-            //-     td 602
-            //-     td
-            //-       a(href = '#') view users
-            //- 

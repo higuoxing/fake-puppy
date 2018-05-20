@@ -24,6 +24,7 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
 
 router.get('/auth', async (req, res, next) => {
   let _token = req.query.token;
+  // FIXME: Hard code
   let url = `http://192.168.2.1:2060/wifidog/auth?token=${_token}`;
   res.redirect(302, url);
 });

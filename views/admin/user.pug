@@ -12,7 +12,7 @@ block content
     div
       h1
         i.fa.fa-th-list
-        |  Users
+        | Users
 
     ul.app-breadcrumb.breadcrumb
       li.breadcrumb-item
@@ -39,7 +39,7 @@ block content
                 th -
                 
             tbody
-              - if (users) {
+              - if (users.length > 0) {
               -   users.forEach((user, index) => {
                     tr
                       td #{index}
@@ -59,4 +59,8 @@ block content
                       td
                         a(href = `/admin/auth/remove?token=${user.token}`) Remove  
               -   });
+              - } else {
+                  tr
+                    td Oops, no user yet!
               - }
+              
