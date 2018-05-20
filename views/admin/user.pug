@@ -43,7 +43,12 @@ block content
               -   users.forEach((user, index) => {
                     tr
                       td #{index}
-                      td #{user.ip_addr}
+                      
+                      - if (user.ip_addr) {
+                          td #{user.ip_addr}
+                      - } else {
+                          td Offline
+                      - }
                       td #{user.mac_addr}
                       td #{user.gw_id}
                       td #{user.token}

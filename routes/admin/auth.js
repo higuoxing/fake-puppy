@@ -10,7 +10,7 @@ router.get('/kickout', check_admin_login, async (req, res, next) => {
   // query and update state => pending
   await user_model.findOneAndUpdate({ token: _token }, { state: 'pending' });
 
-  res.redirect('/admin/user')
+  res.redirect('back');
 });
 
 router.get('/remove', check_admin_login, async (req, res, next) => {
@@ -19,13 +19,13 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
   // query and remove
   await user_model.remove({ token: _token }).exec();
 
-  res.redirect('/admin/user');
+  res.redirect('back');
 });
 
 router.get('/auth', async (req, res, next) => {
   let _token = req.query.token;
   let url = `http://192.168.2.1:2060/wifidog/auth?token=${_token}`;
-  res.redirect(url);
+  res.redirect(302, url);
 });
 
 module.exports = router

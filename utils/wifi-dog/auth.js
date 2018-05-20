@@ -42,6 +42,20 @@ const _auth = async (auth_req_msg) => {
     } else {
       return 'Auth: 1';
     }
+  } else if (auth_req_msg.stage === 'logout') {
+    let user = await user_model.findOne({ token: auth_req_msg.token }).exec();
+    if (user) {
+      let _user_update = {
+        mac_addr: '',
+        ip_addr: '',
+        state: 'pending',
+        incoming: '',
+        outgoing: '',
+        gw_id: ''
+      }
+      await user_model.findOneAndUpdate({ token: auth_req_msg.token }, _user_update).exec();
+      return 'Auth: 0';
+    }
   } else {
     // not known return 0
     return 'Auth: 0';

@@ -23,10 +23,10 @@ block content
       .widget-small.primary.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user').h4 Total Guests
+          a(href = '/admin/user/all').h4 Total Guests
           p
             - if (qrcode) {
-                b #{qrcode.index_info.total_user}
+                b #{qrcode.index_info.all_user.length}
             - } else {
                 b 0
             - };
@@ -35,10 +35,10 @@ block content
       .widget-small.info.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user').h4 Oneline Guests
+          a(href = '/admin/user/active').h4 Oneline Guests
           p
             - if (qrcode) {
-                b #{qrcode.index_info.total_user}
+                b #{qrcode.index_info.active_user.length}
             - } else {
                 b 0
             - };
@@ -50,7 +50,7 @@ block content
           a(href = '/admin/device').h4 My Devices
           p
             - if (qrcode) {
-                b #{qrcode.index_info.total_device}
+                b #{qrcode.index_info.device_info.length}
             - } else {
                 b 0
             - };

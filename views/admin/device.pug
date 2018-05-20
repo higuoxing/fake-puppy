@@ -48,7 +48,7 @@ block content
                           td #{device.sys_load}
                           td #{device.wifidog_uptime}
                           td
-                            a(href = '#') view users
+                            a(href = `/admin/user/device?gw_id=${device.gw_id}`) view users
                 -     })
                 - }
             //- tbody
