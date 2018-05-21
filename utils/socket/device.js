@@ -1,18 +1,17 @@
-// const user_model = require('../db/model/user');
+const admin_model = require('../db/model/admin');
 const _socket_conf = require('../../configs/default').socket_conf;
 
 module.exports = {
   _on_device_mount: (data, socket) => {
     let send_data_interval = setInterval(async () => {
       // set time interval
-      // let _active_user = await user_model.find({ state: 'activate' }).exec();
-      // if (_active_user) {
-      //   // if active users exist
-      //   socket.emit('user-data-outgoing', { active_user: _active_user });
-      //   socket.emit('user-data-incoming', { active_user: _active_user });
-      // } else {
-      //   // do nothing
-      // }
+      let _admin = await admin_model.findOne({ username: 'admin' }).exec();
+      if (_admin) {
+        // if active users exist
+        socket.emit('device-data', { devices: _admin.devices });
+      } else {
+        // do nothing
+      }
     }, _socket_conf.emit_device_data);
 
     socket.on('disconnect', () => {

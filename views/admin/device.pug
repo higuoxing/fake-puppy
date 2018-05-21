@@ -21,6 +21,18 @@ block content
         | Tables
       li.breadcrumb-item.active
         a(href="#") Devices
+        
+  .row
+    .col-md-6
+      .tile
+        h4 &nbsp&nbsp System Load
+        div(id = 'graph-sys-load', style = 'width: inherit')
+          
+    .col-md-6
+      .tile
+        h4 &nbsp&nbsp Free Memory
+        div(id = 'graph-mem-free', style = 'width: inherit')
+
   .row
     .col-md-12
       .tile
@@ -56,12 +68,115 @@ block content
                 - } else {
                     p Oops, no device yet!
                 - }
-  
+
 block specific-js
   - let socket_addr = socket_conf.addr;
+  script(src = 'https://cdn.plot.ly/plotly-latest.min.js')
   script.
     const socket = io.connect('#{socket_addr}');
     socket.on('loading', function (data) {
       // hand shake
       socket.emit('device-connection', { data: 'pong' });
     });
+    
+  - if (live_display === true) {
+      //- dynamic plot
+      script.
+        // plot.ly
+        var time = new Date();
+        let len = parseInt(#{devices.length});
+        let data_sys_load = [];
+        
+      
+        for (let i = 0; i < len; i ++) {
+          // init data
+          data_sys_load.push({ x: [time], y: [ 0 ], mode: 'lines', name: `# ${i}` });
+        }
+        
+        Plotly.plot('graph-sys-load', data_sys_load);
+
+        socket.on('device-data', (data) => {
+          // update user-data-outgoing
+          var time = new Date();
+          let y_update = [];
+          let time_update = [];
+          let curve_counter = [];
+          data.devices.forEach((device, index) => {
+            curve_counter.push(index);
+            time_update.push([time]);
+            y_update.push([device.sys_load[device.sys_load.length-1]]);
+          });
+        
+          var update = {
+            x:  time_update,
+            y:  y_update
+          }
+        
+          var olderTime = time.setMinutes(time.getMinutes() - 1);
+          var futureTime = time.setMinutes(time.getMinutes() + 1);
+        
+          var minuteView = {
+            xaxis: {
+              type: 'date',
+              range: [olderTime,futureTime]
+            }
+          };
+          Plotly.relayout('graph-sys-load', minuteView);
+        
+          // extend traces
+          Plotly.extendTraces('graph-sys-load', update, curve_counter);
+        });
+
+  - } else {
+      //- static plot
+  - }
+  
+  - if (live_display === true) {
+      //- dynamic plot
+      script.
+        // plot.ly
+        let data_mem_free = [];
+  
+  
+        for (let i = 0; i < len; i ++) {
+          // init data
+          data_mem_free.push({ x: [time], y: [ 0 ], mode: 'lines', name: `# ${i}` });
+        }
+  
+        Plotly.plot('graph-mem-free', data_mem_free);
+  
+        socket.on('device-data', (data) => {
+          // update user-data-outgoing
+          var time = new Date();
+          let y_update = [];
+          let time_update = [];
+          let curve_counter = [];
+          data.devices.forEach((device, index) => {
+            curve_counter.push(index);
+            time_update.push([time]);
+            y_update.push([ device.sys_memfree[device.sys_memfree.length-1] ]);
+          });
+  
+          var update = {
+            x:  time_update,
+            y:  y_update
+          }
+  
+          var olderTime = time.setMinutes(time.getMinutes() - 1);
+          var futureTime = time.setMinutes(time.getMinutes() + 1);
+  
+          var minuteView = {
+            xaxis: {
+              type: 'date',
+              range: [olderTime,futureTime]
+            }
+          };
+          Plotly.relayout('graph-mem-free', minuteView);
+  
+          // extend traces
+          Plotly.extendTraces('graph-mem-free', update, curve_counter);
+        });
+  
+  - } else {
+      //- static plot
+  - }

@@ -11,8 +11,8 @@ db.once('open', (callback) => {
 const device_schema = new mongoose.Schema({
   gw_id:           { type: String, require: true, unique: true },   // gateway id
   sys_uptime:      { type: Number },                                // system uptime
-  sys_memfree:     { type: Number },                                // system memory free
-  sys_load:        { type: Number },                                // system load
+  sys_memfree:     { type: [Number] },                              // system memory free
+  sys_load:        { type: [Number] },                              // system load
   wifidog_uptime:  { type: Number },                                // wifidog uptime
   last_heartbeat:  { type: Date }                                   // last heart beat
 });

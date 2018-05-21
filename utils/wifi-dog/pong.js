@@ -6,18 +6,17 @@ const _pong = async (ping_msg) => {
   let device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': gw_id }).exec();
   if (device) {
 
-    // construct device msg
-    const _ping_msg = {
-      'devices.$.sys_uptime': ping_msg.sys_uptime ? ping_msg.sys_uptime : device.devices[0].sys_uptime,
-      'devices.$.sys_memfree': ping_msg.sys_memfree ? ping_msg.sys_memfree : device.devices[0].sys_memfree,
-      'devices.$.sys_load': ping_msg.sys_load ? ping_msg.sys_load : device.devices[0].sys_load,
-      'devices.$.wifidog_uptime': ping_msg.wifidog_uptime ? ping_msg.wifidog_uptime : device.devices[0].wifidog_uptime
-    }
-
     await admin_model.findOneAndUpdate({
       username: 'admin',
       'devices.gw_id': gw_id, devices: { '$size': 1 }
-    }, _ping_msg).exec();
+    }, {
+      'devices.$.sys_uptime': ping_msg.sys_uptime,
+      'devices.$.wifidog_uptime': ping_msg.wifidog_uptime,
+      '$push': {
+        'devices.$.sys_memfree': ping_msg.sys_memfree,
+        'devices.$.sys_load': ping_msg.sys_load
+      }
+    }).exec();
 
     return 'Pong';
   } else {
