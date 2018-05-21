@@ -91,5 +91,7 @@ function onListening() {
 }
 
 io.on('connection', function (socket) {
+  // hand shake and listen
+  socket.emit('loading', { data: 'ping' });
   socket_router(socket);
 });

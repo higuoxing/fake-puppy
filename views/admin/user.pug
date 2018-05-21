@@ -32,6 +32,7 @@ block content
             thead
               tr
                 th # 
+                th State
                 th IP Address
                 th Mac Address
                 th Gateway ID
@@ -46,12 +47,14 @@ block content
               -   users.forEach((user, index) => {
                     tr
                       td #{index}
-                      
-                      - if (user.ip_addr) {
-                          td #{user.ip_addr}
-                      - } else {
-                          td Offline
+                      - if (user.state === 'pending') {
+                          td
+                            span.badge.badge-danger Offline
+                      - } else if (user.state === 'activate') {
+                          td
+                            span.badge.badge-success Online
                       - }
+                      td #{user.ip_addr}
                       td #{user.mac_addr}
                       td #{user.gw_id}
                       td #{user.token}
@@ -63,17 +66,17 @@ block content
                         a(href = `/admin/auth/remove?token=${user.token}`) Remove  
               -   });
               - } else {
-                  tr
-                    td Oops, no user yet!
+                  
+                    p Oops, no user yet!
               - }
 
 block specific-js
   - let socket_addr = socket_conf.addr;
   script.
     const socket = io.connect('#{socket_addr}');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
+    socket.on('loading', function (data) {
+      // hand shake
+      socket.emit('user-connection', { data: 'pong' });
     });
     
     

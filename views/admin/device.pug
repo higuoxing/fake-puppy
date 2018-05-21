@@ -30,6 +30,7 @@ block content
             thead
               tr
                 th # 
+                th State
                 th Gateway ID
                 th System Uptime
                 th System Mem-free
@@ -42,6 +43,8 @@ block content
                 -     devices.forEach((device, index) => {
                         tr
                           td #{index}
+                          td 
+                            span.badge.badge-success Online
                           td #{device.gw_id}
                           td #{device.sys_uptime}
                           td #{device.sys_memfree}
@@ -49,8 +52,16 @@ block content
                           td #{device.wifidog_uptime}
                           td
                             a(href = `/admin/user/device?gw_id=${device.gw_id}`) view users
-                -     })
+                -     });
                 - } else {
-                    tr
-                      td Oops, no device yet!
+                    p Oops, no device yet!
                 - }
+  
+block specific-js
+  - let socket_addr = socket_conf.addr;
+  script.
+    const socket = io.connect('#{socket_addr}');
+    socket.on('loading', function (data) {
+      // hand shake
+      socket.emit('device-connection', { data: 'pong' });
+    });
