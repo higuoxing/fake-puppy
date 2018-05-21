@@ -59,8 +59,8 @@ block content
                             span.badge.badge-success Online
                           td #{device.gw_id}
                           td #{device.sys_uptime}
-                          td #{device.sys_memfree}
-                          td #{device.sys_load}
+                          td #{device.sys_memfree[device.sys_memfree.length-1]}
+                          td #{device.sys_load[device.sys_load.length-1]}
                           td #{device.wifidog_uptime}
                           td
                             a(href = `/admin/user/device?gw_id=${device.gw_id}`) view users
