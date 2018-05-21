@@ -20,11 +20,12 @@ block content
       li.breadcrumb-item
         | Tables
       li.breadcrumb-item.active
-        a(href="#") Users
+        a(href = '#') Users
   .row
     .col-md-12
       .tile
-        p 233
+        div(id = 'graph', style = 'width: inherit')
+          
     .col-md-12
       .tile
         .table-responsive
@@ -73,11 +74,58 @@ block content
 block specific-js
   - let socket_addr = socket_conf.addr;
   script.
+    // socket.io
     const socket = io.connect('#{socket_addr}');
     socket.on('loading', function (data) {
       // hand shake
       socket.emit('user-connection', { data: 'pong' });
     });
+    
+  script(src = 'https://cdn.plot.ly/plotly-latest.min.js')
+  script.
+    // plot.ly
+    function rand() {
+      return Math.random();
+    }
+
+    var time = new Date();
+
+    var data = [{
+      x: [time],
+      y: [rand],
+      mode: 'lines',
+      line: {color: '#80CAF6'}
+    }]
+
+    Plotly.plot('graph', data);
+
+    var cnt = 0;
+
+    var interval = setInterval(function() {
+
+      var time = new Date();
+
+      var update = {
+      x:  [[time]],
+      y: [[rand()]]
+      }
+
+      var olderTime = time.setMinutes(time.getMinutes() - 1);
+      var futureTime = time.setMinutes(time.getMinutes() + 1);
+
+      var minuteView = {
+            xaxis: {
+              type: 'date',
+              range: [olderTime,futureTime]
+            }
+          };
+
+      Plotly.relayout('graph', minuteView);
+      Plotly.extendTraces('graph', update, [0])
+
+      if(cnt === 100) clearInterval(interval);
+    }, 1000);
+    
     
     
         
