@@ -12,7 +12,7 @@ block content
     div
       h1
         i.fa.fa-th-list
-        | Users
+        |  Users
 
     ul.app-breadcrumb.breadcrumb
       li.breadcrumb-item
@@ -22,9 +22,15 @@ block content
       li.breadcrumb-item.active
         a(href = '#') Users
   .row
-    .col-md-12
+    .col-md-6
       .tile
-        div(id = 'graph', style = 'width: inherit')
+        h4 &nbsp&nbsp Outgoing Data Flow
+        div(id = 'graph-outgoing', style = 'width: inherit')
+          
+    .col-md-6
+      .tile
+        h4 &nbsp&nbsp Incoming Data Flow
+        div(id = 'graph-incoming', style = 'width: inherit')
           
     .col-md-12
       .tile
@@ -67,11 +73,11 @@ block content
                         a(href = `/admin/auth/remove?token=${user.token}`) Remove  
               -   });
               - } else {
-                  
                     p Oops, no user yet!
               - }
 
 block specific-js
+  script(src = 'https://cdn.plot.ly/plotly-latest.min.js')
   - let socket_addr = socket_conf.addr;
   script.
     // socket.io
@@ -81,50 +87,109 @@ block specific-js
       socket.emit('user-connection', { data: 'pong' });
     });
     
-  script(src = 'https://cdn.plot.ly/plotly-latest.min.js')
-  script.
-    // plot.ly
-    function rand() {
-      return Math.random();
-    }
+  - if (live_display === true) {
+      //- dynamic plot
+      script.
+        // plot.ly
+        var time = new Date();
+        let len = parseInt(#{users.length});
+        let data_outgoing = [];
+        
+      
+        for (let i = 0; i < len; i ++) {
+          // init data
+          data_outgoing.push({ x: [time], y: [ 0 ], mode: 'lines', name: `# ${i}` });
+        }
+        
+        Plotly.plot('graph-outgoing', data_outgoing);
 
-    var time = new Date();
-
-    var data = [{
-      x: [time],
-      y: [rand],
-      mode: 'lines',
-      line: {color: '#80CAF6'}
-    }]
-
-    Plotly.plot('graph', data);
-
-    var cnt = 0;
-
-    var interval = setInterval(function() {
-
-      var time = new Date();
-
-      var update = {
-      x:  [[time]],
-      y: [[rand()]]
-      }
-
-      var olderTime = time.setMinutes(time.getMinutes() - 1);
-      var futureTime = time.setMinutes(time.getMinutes() + 1);
-
-      var minuteView = {
+        socket.on('user-data-outgoing', (data) => {
+          // update user-data-outgoing
+          var time = new Date();
+          let y_update = [];
+          let time_update = [];
+          let curve_counter = [];
+          data.active_user.forEach((user, index) => {
+            curve_counter.push(index);
+            time_update.push([time]);
+            y_update.push([user.outgoing[user.outgoing.length-1]]);
+          });
+        
+          var update = {
+            x:  time_update,
+            y:  y_update
+          }
+        
+          var olderTime = time.setMinutes(time.getMinutes() - 1);
+          var futureTime = time.setMinutes(time.getMinutes() + 1);
+        
+          var minuteView = {
             xaxis: {
               type: 'date',
               range: [olderTime,futureTime]
             }
           };
+          Plotly.relayout('graph-outgoing', minuteView);
+        
+          // extend traces
+          Plotly.extendTraces('graph-outgoing', update, curve_counter);
+        });
 
-      Plotly.relayout('graph', minuteView);
-      Plotly.extendTraces('graph', update, [0])
-
-      if(cnt === 100) clearInterval(interval);
-    }, 1000);
+  - } else {
+      //- static plot
+  - }
+  
+  - if (live_display === true) {
+      //- dynamic plot
+      script.
+        // plot.ly
+        let data_incoming = [];
+  
+  
+        for (let i = 0; i < len; i ++) {
+          // init data
+          data_incoming.push({ x: [time], y: [ 0 ], mode: 'lines', name: `# ${i}` });
+        }
+  
+        Plotly.plot('graph-incoming', data_incoming);
+  
+        socket.on('user-data-incoming', (data) => {
+          // update user-data-outgoing
+          var time = new Date();
+          let y_update = [];
+          let time_update = [];
+          let curve_counter = [];
+          data.active_user.forEach((user, index) => {
+            curve_counter.push(index);
+            time_update.push([time]);
+            y_update.push([user.incoming[user.incoming.length-1]]);
+          });
+  
+          var update = {
+            x:  time_update,
+            y:  y_update
+          }
+  
+          var olderTime = time.setMinutes(time.getMinutes() - 1);
+          var futureTime = time.setMinutes(time.getMinutes() + 1);
+  
+          var minuteView = {
+            xaxis: {
+              type: 'date',
+              range: [olderTime,futureTime]
+            }
+          };
+          Plotly.relayout('graph-incoming', minuteView);
+  
+          // extend traces
+          Plotly.extendTraces('graph-incoming', update, curve_counter);
+        });
+  
+  - } else {
+      //- static plot
+  - }
+    
+  
     
     
     
