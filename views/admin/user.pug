@@ -71,9 +71,9 @@ block content
                       td #{user.incoming[user.incoming.length-1]}
                       td #{user.outgoing[user.outgoing.length-1]}
                       td
-                        a(href = `/admin/auth/kickout?token=${user.token}`) Kick out
+                        a.btn.badge.badge-danger(href = `/admin/auth/kickout?token=${user.token}`) Kick out
                       td
-                        a(href = `/admin/auth/remove?token=${user.token}`) Remove  
+                        a.btn.badge.badge-danger(href = `/admin/auth/remove?token=${user.token}`) Remove  
               -   });
               - } else {
                     p Oops, no user yet!
