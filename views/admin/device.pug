@@ -38,36 +38,76 @@ block content
       .tile
         h3.tile-title My Devices
         .table-responsive
-          table.table
-            thead
-              tr
-                th # 
-                th State
-                th Gateway ID
-                th System Uptime
-                th System Mem-free
-                th System Load
-                th Wifi-dog Uptime
-                th -
-                
-                - if (devices.length > 0) {
-                    tbody
-                -     devices.forEach((device, index) => {
+            table.table
+              thead
+                tr
+                  th # 
+                  th State
+                  th Gateway ID
+                  th Gateway Address
+                  th Gateway Port
+                  th System Uptime
+                  th Free Memory
+                  th CPU Load
+                  th Operations
+                  th --
+                  th --
+                  
+                  
+                  - if (devices.length > 0) {
+                  -   devices.forEach((device, index) => {
+                        form(id=`${device.gw_id}`, method='post', action='/admin/device')
+                          input(name='type', value='update', style='display: none')
+                          input(name='origin_gw_id', value=device.gw_id, style='display: none')
+                          tbody
+                            tr
+                              td #{index}
+                              td 
+                                span.badge.badge-success Online
+                              td
+                                input(name = 'gw_id', value = device.gw_id, required='', autofocus='')
+                              td
+                                input(name = 'gw_addr', value = device.gw_addr, required='', autofocus='')
+                              td
+                                input(name = 'gw_port',value = device.gw_port, required='', autofocus='')
+                              td #{device.sys_uptime}
+                              td #{device.sys_memfree[device.sys_memfree.length-1]}
+                              td #{device.sys_load[device.sys_load.length-1]}
+                              td 
+                                button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn Update Config
+                              td
+                                a(href = `/admin/user/device?gw_id=${device.gw_id}`) 
+                                  span.badge.badge-info.btn View Users
+                              td 
+                                a(href = `/admin/device/remove?gw_id=${device.gw_id}`)
+                                  span.badge.badge-danger.btn Remove Device
+                  -   });
+                  - } else {
+                      p Oops, no device yet!  
+                  - }
+                    form(id='new_device', method='post', action='/admin/device')
+                      input(name='type', value='insert', style='display: none')
+                      tbody
                         tr
-                          td #{index}
+                          td #
                           td 
-                            span.badge.badge-success Online
-                          td #{device.gw_id}
-                          td #{device.sys_uptime}
-                          td #{device.sys_memfree[device.sys_memfree.length-1]}
-                          td #{device.sys_load[device.sys_load.length-1]}
-                          td #{device.wifidog_uptime}
+                            span.badge.badge-info New 
+                          td 
+                            input(name='gw_id', value = '233', required='', autofocus='')
+                          td 
+                            input(name='gw_addr', value = '192.168.1.1', required='', autofocus='')
+                          td 
+                            input(name='gw_port', value = '2060', required='', autofocus='')
+                          td --
+                          td --
+                          td --
+                          td 
+                            button.btn.badge.badge-info(type='submit') Insert Device
                           td
-                            a(href = `/admin/user/device?gw_id=${device.gw_id}`) view users
-                -     });
-                - } else {
-                    p Oops, no device yet!
-                - }
+                            span --
+                          td 
+                            span --
+
 
 block specific-js
   - let socket_addr = socket_conf.addr;
