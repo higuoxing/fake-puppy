@@ -1,14 +1,14 @@
 const admin_model = require('../db/model/admin');
 
 const _pong = async (ping_msg) => {
-  // GET /wifidog/ping/?gw_id=24660045&sys_uptime=3840&sys_memfree=99256&sys_load=0.09&wifidog_uptime=362 200 0.585 ms - 4
+  
   let gw_id = ping_msg.gw_id;
   let device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': gw_id }).exec();
   if (device) {
-
+    // device has registered
     await admin_model.findOneAndUpdate({
       username: 'admin',
-      'devices.gw_id': gw_id, devices: { '$size': 1 }
+      'devices.gw_id': gw_id
     }, {
       'devices.$.sys_uptime': ping_msg.sys_uptime,
       'devices.$.wifidog_uptime': ping_msg.wifidog_uptime,
@@ -20,7 +20,20 @@ const _pong = async (ping_msg) => {
 
     return 'Pong';
   } else {
-    return 'Sorry';
+    // if not exists, add it to db
+    // await admin_model.findOneAndUpdate({ username: 'admin' }, {
+    //   '$push': {
+    //     'devices': {
+    //       gw_id: ping_msg.gw_id,
+    //       sys_uptime: ping_msg.sys_uptime,
+    //       wifidog_uptime: ping_msg.wifidog_uptime,
+    //       sys_memfree: [ ping_msg.sys_memfree ],
+    //       sys_load: [ ping_msg.sys_load ]
+    //     }
+    //   }
+    // }).exec();
+    // FIXME: do nothing
+    return 'Pong';
   }
 }
 

@@ -50,7 +50,7 @@ block content
           a(href = '/admin/device').h4 My Devices
           p
             - if (index_info) {
-                b #{index_info.device_info.length}
+                b #{index_info.device_info.devices.length}
             - } else {
                 b 0
             - };
