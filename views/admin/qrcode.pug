@@ -67,9 +67,23 @@ block content
     .col-md-4
       .tile
         h3.title QR-Code for Guests
-        p Swap me to get access to network :)
-          br 
+        form#gateway-sel(action='/admin/qrcode', method='get')
+          .form-group
+            label(for='gw_id') Gateway ID &nbsp
+              button.badge.badge-info(type='submit', form='gateway-sel') Generate
+            select#gw_id.form-control(name='gw_id')
+              - if (devices) {
+              -   devices.forEach((device) => {
+              -     if (qrcode.active == device.gw_id) {
+                      option(selected='selected') #{device.gw_id}  
+              -     } else {
+                      option #{device.gw_id}
+              -     }
+              -   });
+              - }
+            
           - if (qrcode)
+          -   console.log(qrcode.url)
               strong Auth Token: #{qrcode.token}
           br
           - if (qrcode)

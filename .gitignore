@@ -6,4 +6,4 @@ package-lock.json
 yarn-error.log
 tmp
 tmp/*
-views/dashboard/*
+#views/dashboard/*
