@@ -68,8 +68,8 @@ block content
                       td #{user.mac_addr}
                       td #{user.gw_id}
                       td #{user.token}
-                      td #{user.incoming[user.incoming.length-1]}
-                      td #{user.outgoing[user.outgoing.length-1]}
+                      td(id=`${user.token}_incoming`) #{user.incoming[user.incoming.length-1]}
+                      td(id=`${user.token}_outgoing`) #{user.outgoing[user.outgoing.length-1]}
                       td
                         a.btn.badge.badge-danger(href = `/admin/auth/kickout?token=${user.token}`) Kick out
                       td
@@ -113,6 +113,8 @@ block specific-js
           let time_update = [];
           let curve_counter = [];
           data.active_user.forEach((user, index) => {
+            let tb_outgoing = document.getElementById(user.token + '_outgoing');
+            tb_outgoing.innerHTML = user.outgoing[user.outgoing.length-1];
             curve_counter.push(index);
             time_update.push([time]);
             y_update.push([user.outgoing[user.outgoing.length-1]]);
@@ -163,6 +165,8 @@ block specific-js
           let time_update = [];
           let curve_counter = [];
           data.active_user.forEach((user, index) => {
+            let tb_incoming = document.getElementById(user.token + '_incoming');
+            tb_incoming.innerHTML = user.incoming[user.incoming.length-1];
             curve_counter.push(index);
             time_update.push([time]);
             y_update.push([user.incoming[user.incoming.length-1]]);

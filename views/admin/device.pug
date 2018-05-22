@@ -68,9 +68,9 @@ block content
                                 input(name = 'gw_addr', value = device.gw_addr, required='', autofocus='')
                               td
                                 input(name = 'gw_port',value = device.gw_port, required='', autofocus='')
-                              td #{device.sys_uptime}
-                              td #{device.sys_memfree[device.sys_memfree.length-1]}
-                              td #{device.sys_load[device.sys_load.length-1]}
+                              td(id=`${device.gw_id}_sys_uptime`) #{device.sys_uptime}
+                              td(id=`${device.gw_id}_sys_memfree`) #{device.sys_memfree[device.sys_memfree.length-1]}
+                              td(id=`${device.gw_id}_sys_load`) #{device.sys_load[device.sys_load.length-1]}
                               td 
                                 button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn Update Config
                               td
@@ -139,6 +139,13 @@ block specific-js
           let time_update = [];
           let curve_counter = [];
           data.devices.forEach((device, index) => {
+            // update table
+            let _device_sys_uptime = document.getElementById(device.gw_id + '_sys_uptime');
+            _device_sys_uptime.innerHTML = device.sys_uptime;
+            let _device_memfree = document.getElementById(device.gw_id + '_sys_memfree');
+            _device_memfree.innerHTML = device.sys_memfree[device.sys_memfree.length-1];
+            let _device_sys_load = document.getElementById(device.gw_id + '_sys_load');
+            _device_sys_load.innerHTML = device.sys_load[device.sys_load.length-1];
             curve_counter.push(index);
             time_update.push([time]);
             y_update.push([device.sys_load[device.sys_load.length-1]]);
