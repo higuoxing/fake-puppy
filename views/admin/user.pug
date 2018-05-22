@@ -21,17 +21,20 @@ block content
         | Tables
       li.breadcrumb-item.active
         a(href = '#') Users
-  .row
-    .col-md-6
-      .tile
-        h4 &nbsp&nbsp Outgoing Data Flow
-        div(id = 'graph-outgoing', style = 'width: inherit')
-          
-    .col-md-6
-      .tile
-        h4 &nbsp&nbsp Incoming Data Flow
-        div(id = 'graph-incoming', style = 'width: inherit')
-          
+        
+  - if (live_display === true) {
+      .row
+        .col-md-6
+          .tile
+            h4 &nbsp&nbsp Outgoing Data Flow
+            div(id = 'graph-outgoing', style = 'width: inherit')
+              
+        .col-md-6
+          .tile
+            h4 &nbsp&nbsp Incoming Data Flow
+            div(id = 'graph-incoming', style = 'width: inherit')
+  - }
+  
     .col-md-12
       .tile
         .table-responsive

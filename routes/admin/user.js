@@ -14,7 +14,7 @@ router.get('/active', check_admin_login, async (req, res, next) => {
 // get all users
 router.get('/all', check_admin_login, async (req, res, next) => {
   let _users = await user_model.find({ '$or': [{ state: 'activate' }, { state: 'pending' }] }).exec();
-  res.render('admin/user', { users: _users, socket_conf: _socket_conf });
+  res.render('admin/user', { users: _users, socket_conf: _socket_conf, live_display: false });
 });
 
 // get users of some device
