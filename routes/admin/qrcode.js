@@ -4,7 +4,7 @@ const admin_model = require('../../utils/db/model/admin');
 const gen_qrcode = require('../../utils/admin/qrcode').gen_qrcode;
 const check_admin_login = require('../../middlewares/check_login').check_admin_login;
 
-router.get('/', async (req, res, next) => {
+router.get('/', check_admin_login, async (req, res, next) => {
   // generate qrcode
   let _gw_id = req.query.gw_id;
   let qrcode = await gen_qrcode(_gw_id);
