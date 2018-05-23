@@ -1,29 +1,41 @@
 const crypto = require('crypto');
+const qrCode = require('qrcode');
 const user_model = require('../db/model/user');
 const admin_model = require('../db/model/admin');
 const get_index_info = require('./panel').get_index_info;
 
-const _gen_qrcode = async (device) => {
+const _gen_qrcode = async (gw_id) => {
 
-  let qrCode = require('qrcode');
   // share link
-
   let unused_hash = await user_model.find({ state: 'pending' }).exec();
-  let _hash = null;
+  let hash = null;
   let url = null;
+  let device = null;
+
+  if (gw_id) {
+    // gw_id exists
+    device = (await admin_model.findOne({
+      username: 'admin',
+      'devices.gw_id': gw_id,
+      'devices': {
+        '$size': 1
+      }
+    })).devices[0];
+  } else {
+    // gw_id not exists
+    device = (await admin_model.findOne({ username: 'admin' })).devices[0];
+  }
 
   if (unused_hash[0]) {
     // unused hash
-    _hash = unused_hash[0].token;
-    // FIXME: hard code url
-    url = `http://${device.gw_addr}:${device.gw_port}/wifidog/auth?token=${_hash}`;
+    hash = unused_hash[0].token;
+    url = `http://${device.gw_addr}:${device.gw_port}/wifidog/auth?token=${hash}`;
   } else {
     // generate hash code and add to db
     let current_date = (new Date()).valueOf().toString();
     let random = Math.random().toString();
-    _hash = crypto.createHash('sha1').update(current_date + random).digest('hex').slice(32);
-    // FIXME: hard code url
-    url = `http://${device.addr}:${device.port}/wifidog/auth?token=${_hash}`;
+    hash = crypto.createHash('sha1').update(current_date + random).digest('hex').slice(32);
+    url = `http://${device.addr}:${device.port}/wifidog/auth?token=${hash}`;
     await user_model.create({
       mac_addr: '',
       ip_addr: '',
@@ -37,7 +49,13 @@ const _gen_qrcode = async (device) => {
 
   let _index_info = await get_index_info();
 
-  return { qrcode: await qrCode.toDataURL(url), url: url, index_info: _index_info, token: _hash, active: device.gw_id };
+  return {
+    qrcode     : await qrCode.toDataURL(url),
+    url        : url,
+    index_info : _index_info,
+    token      : hash,
+    active     : device.gw_id
+  };
 }
 
 module.exports = {
