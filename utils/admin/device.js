@@ -29,7 +29,6 @@ const _safe_insert_device = async (device) => {
 const _safe_update_device = async (device) => {
 
   let _new_device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': device.gw_id });
-  
   if (_new_device && device.gw_id != device.origin_gw_id) {
     // gw_id has been taken
     return false;

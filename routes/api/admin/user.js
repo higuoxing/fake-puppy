@@ -17,19 +17,16 @@ router.get('/update', check_admin_login, async (req, res, next) => {
       // kick out user
       await user_model.findOneAndUpdate({ token: _token }, { state: 'pending' });
       res.redirect('back');
-
     } else if (_action === 'remove') {
       // remove user
       await user_model.remove({ token: _token }).exec();
       res.redirect('back');
-
     } else {
       // undefined action
       // do nothing and return
       res.redirect('back');
     }
   }
-  
 });
 
 module.exports = router
