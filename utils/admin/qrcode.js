@@ -16,10 +16,9 @@ const _gen_qrcode = async (gw_id) => {
     // gw_id exists
     device = (await admin_model.findOne({
       username: 'admin',
-      'devices.gw_id': gw_id,
-      'devices': {
-        '$size': 1
-      }
+      'devices.gw_id': gw_id
+    }, {
+      'devices.$': 1
     })).devices[0];
   } else {
     // gw_id not exists
