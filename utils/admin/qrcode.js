@@ -39,7 +39,7 @@ const _gen_qrcode = async (gw_id) => {
     await user_model.create({
       mac_addr: '',
       ip_addr: '',
-      token: _hash,
+      token: hash,
       state: 'pending',
       gw_id: '',
       incoming: [ 0 ],
