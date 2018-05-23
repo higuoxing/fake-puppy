@@ -1,6 +1,17 @@
-//- extends layout
-//- 
-//- block content
-h1= message
-h2= error.status
-pre #{error.stack}
+doctype html
+html
+  head
+    include includes/_head.pug
+    title Login
+
+  body
+    link(rel = 'stylesheet' href = '/stylesheets/main.css')
+    section.material-half-bg
+      .cover
+
+    section.login-content
+      
+        div(class='alert alert-success', role='alert')
+          strong(style='font-size: 40px') Oops
+          p(style='font-size: 20px') 4-0-4 Not Found
+          img(src='/images/Popuko.gif')
