@@ -18,13 +18,15 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
   let admin = await admin_model.update(
     { username: 'admin' },
     { '$pull':
-      { devices: { gw_id: _gw_id } } 
+      { devices: { gw_id: _gw_id } }
   });
   res.redirect('/admin/device');
 });
 
 router.post('/', check_admin_login, async (req, res, next) => {
   let _device = req.body;
+
+  // FIXME:
   if (_device.type === 'update') {
     await safe_update_device(_device);
   } else if (_device.type === 'insert') {
