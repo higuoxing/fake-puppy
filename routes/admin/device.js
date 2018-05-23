@@ -12,34 +12,4 @@ router.get('/', check_admin_login, async (req, res, next) => {
   res.render('admin/device', { devices: _devices, socket_conf: _socket_conf, live_display: true });
 });
 
-router.get('/remove', check_admin_login, async (req, res, next) => {
-  let _gw_id = req.query.gw_id;
-
-  let admin = await admin_model.update(
-    { username: 'admin' },
-    { '$pull':
-      { devices: { gw_id: _gw_id } }
-  });
-  res.redirect('/admin/device');
-});
-
-router.post('/', check_admin_login, async (req, res, next) => {
-  let _device = req.body;
-
-  // FIXME:
-  if (_device.type === 'update') {
-    await safe_update_device(_device);
-  } else if (_device.type === 'insert') {
-    let status = await safe_insert_device(_device);
-    if (status) {
-      // success
-      req.flash('success', { msg: 'Successful' });
-    } else {
-      // failed
-      req.flash('error', { msg: 'Gateway ID has been taken!' });
-    }
-  }
-  res.redirect('/admin/device');
-});
-
 module.exports = router
