@@ -29,9 +29,7 @@ router.get('/update', check_admin_login, async (req, res, next) => {
       res.redirect('back');
     }
   }
-
-  // query and update state => pending
-
+  
 });
 
 module.exports = router
