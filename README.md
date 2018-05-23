@@ -38,3 +38,10 @@ npm start
 ### ISSUES
 
 > For any problems, please send me a issue or pr, have fun :)
+
+### Acknowledgement
+
+> Standing on the shoulders of giants!
+
+* Special thanks for [vali-admin](https://github.com/pratikborsadiya/vali-admin)
+* Special thanks for YiCheng-Ma and AiJun-Zhou
