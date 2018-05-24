@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
       password: _password,
       salt    : _salt
     });
-    req.session.user = _username;
+    req.session.user = { username: _username, role: 'admin' };
     res.redirect('/admin/panel');
   }
 });

@@ -55,7 +55,7 @@ block content
                   
                   - if (devices.length > 0) {
                   -   devices.forEach((device, index) => {
-                        form(id=`${device.gw_id}`, method='post', action='/api/admin/device')
+                        form(id=`${device.gw_id}`, method='get', action='/api/admin/device')
                           input(name='type', value='update', style='display: none')
                           input(name='origin_gw_id', value=device.gw_id, style='display: none')
                           tbody
@@ -77,13 +77,13 @@ block content
                                 a(href = `/admin/user/device?gw_id=${device.gw_id}`) 
                                   span.badge.badge-info.btn View Users
                               td 
-                                a(href = `/api/admin/device/remove?gw_id=${device.gw_id}`)
+                                a(href = `/api/admin/device?type=remove&gw_id=${device.gw_id}`)
                                   span.badge.badge-danger.btn Remove Device
                   -   });
                   - } else {
                       p Oops, no device yet!  
                   - }
-                    form(id='new_device', method='post', action='/api/admin/device')
+                    form(id='new_device', method='get', action='/api/admin/device')
                       input(name='type', value='insert', style='display: none')
                       tbody
                         tr

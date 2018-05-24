@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
       sess_id: req.sessionID
     });
     if (_check === 'auth') {
-      req.session.user = _username;
+      req.session.user = { username: _username, role: 'admin' };
       req.flash('success', 'Welcome ~');
       res.redirect('/admin/panel');
     } else if (_check === 'not-permitted'){

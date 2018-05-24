@@ -1,19 +1,28 @@
-const express = require('express');
-const router = express.Router();
-const admin_model = require('../../../utils/db/model/admin');
-const _socket_conf = require('../../../configs/default').socket_conf;
-const check_admin_login = require('../../../middlewares/check_login').check_admin_login;
-const insert_device = require('../../../utils/db/access/admin').insert_device;
-const safe_update_device = require('../../../utils/admin/device').safe_update_device;
+const express                = require('express');
+const router                 = express.Router();
+const check_admin_login      = require('../../../middlewares/check_login').check_admin_login;
+const insert_device          = require('../../../utils/db/access/admin').insert_device;
+const remove_specific_device = require('../../../utils/db/access/admin').remove_specific_device;
+const update_specific_device = require('../../../utils/db/access/admin').update_specific_device;
 
-router.post('/', check_admin_login, async (req, res, next) => {
+router.get('/', check_admin_login, async (req, res, next) => {
 
-  let _device = req.body;
+  let device = req.query;
 
-  if (_device.type === 'update') {
-    await safe_update_device(_device, req.session.user);
-  } else if (_device.type === 'insert') {
-    let status = await insert_device(_device);
+  if (device.type === 'update') {
+
+    let origin_device = { gw_id: device.origin_gw_id };
+    let new_device = {
+      gw_id    : device.gw_id   ,
+      gw_addr  : device.gw_addr ,
+      gw_port  : device.gw_port ,
+    };
+    await update_specific_device(new_device, origin_device);
+    res.redirect('/admin/device');
+
+  } else if (device.type === 'insert') {
+
+    let status = await insert_device(device);
     if (status) {
       // success
       req.flash('success', 'Successful');
@@ -21,10 +30,12 @@ router.post('/', check_admin_login, async (req, res, next) => {
       // failed
       req.flash('error', 'Gateway ID has been taken!');
     }
-  } else if (_device.type === 'remove') {
+    res.redirect('/admin/device');
 
+  } else if (device.type === 'remove') {
+    await remove_specific_device({ gw_id: device.gw_id });
+    res.redirect('/admin/device');
   }
-  res.redirect('/admin/device');
 });
 
 module.exports = router

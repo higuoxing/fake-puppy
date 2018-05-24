@@ -1,15 +1,16 @@
 const user_model = require('../db/model/user');
 const admin_model = require('../db/model/admin');
+const get_all_users = require('../db/access/user').get_all_users;
 
-const _get_index_info = async (_username) => {
+const _get_index_info = async (user) => {
 
-  let _indef_info = {
-    active_user: await user_model.find({ state: 'activate' }).exec(),
-    device_info: await admin_model.findOne({ username: 'admin' }).exec(),
-    all_user: await user_model.find({ '$or': [{ state: 'activate' }, { state: 'pending' }] }).exec()
+  let index_info = {
+    active_users: await user_model.find({ state: 'activate' }).exec(),
+    all_devices: (await admin_model.findOne(user)).devices,
+    all_users: await get_all_users()
   }
-
-  return _indef_info;
+  
+  return index_info;
 }
 
 module.exports = {

@@ -26,7 +26,7 @@ block content
           a(href = '/admin/user/all').h4 Total Guests
           p
             - if (qrcode) {
-                b #{qrcode.index_info.all_user.length}
+                b #{qrcode.index_info.all_users.length}
             - } else {
                 b 0
             - };
@@ -38,7 +38,7 @@ block content
           a(href = '/admin/user/active').h4 Oneline Guests
           p
             - if (qrcode) {
-                b #{qrcode.index_info.active_user.length}
+                b #{qrcode.index_info.active_users.length}
             - } else {
                 b 0
             - };
@@ -50,7 +50,7 @@ block content
           a(href = '/admin/device').h4 My Devices
           p
             - if (qrcode) {
-                b #{qrcode.index_info.device_info.devices.length}
+                b #{qrcode.index_info.all_devices.length}
             - } else {
                 b 0
             - };
