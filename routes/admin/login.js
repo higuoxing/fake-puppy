@@ -5,7 +5,7 @@ const check_admin = require('../../utils/admin/login').check_admin;
 const check_admin_login = require('../../middlewares/check_login').check_admin_login;
 
 router.get('/', async (req, res, next) => {
-  if (req.session.user === 'admin') {
+  if (req.session.user) {
     res.redirect('/admin/panel');
   } else {
     // not log in

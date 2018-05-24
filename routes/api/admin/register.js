@@ -19,7 +19,7 @@ router.post('/', async (req, res, next) => {
       salt    : _salt,
       devices : [ ]
     });
-    req.session.user = 'admin';
+    req.session.user = _username;
     res.redirect('/admin/panel');
   }
 });

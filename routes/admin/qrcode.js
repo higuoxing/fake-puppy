@@ -7,8 +7,8 @@ const check_admin_login = require('../../middlewares/check_login').check_admin_l
 router.get('/', check_admin_login, async (req, res, next) => {
   // generate qrcode
   let _gw_id = req.query.gw_id;
-  let qrcode = await gen_qrcode(_gw_id);
-  let _devices = (await admin_model.findOne({ username: 'admin' })).devices;
+  let qrcode = await gen_qrcode(_gw_id, req.session.user);
+  let _devices = (await admin_model.findOne({ username: req.session.user })).devices;
   res.render('admin/qrcode', { qrcode: qrcode, devices: _devices });
 });
 

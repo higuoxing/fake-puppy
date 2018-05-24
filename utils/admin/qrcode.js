@@ -4,7 +4,7 @@ const user_model = require('../db/model/user');
 const admin_model = require('../db/model/admin');
 const get_index_info = require('./panel').get_index_info;
 
-const _gen_qrcode = async (gw_id) => {
+const _gen_qrcode = async (gw_id, _username) => {
 
   // share link
   let unused_hash = await user_model.find({ state: 'pending' }).exec();
@@ -15,14 +15,14 @@ const _gen_qrcode = async (gw_id) => {
   if (gw_id) {
     // gw_id exists
     device = (await admin_model.findOne({
-      username: 'admin',
+      username: _username,
       'devices.gw_id': gw_id
     }, {
       'devices.$': 1
     })).devices[0];
   } else {
     // gw_id not exists
-    device = (await admin_model.findOne({ username: 'admin' })).devices[0];
+    device = (await admin_model.findOne({ username: _username })).devices[0];
   }
 
   if (unused_hash[0]) {

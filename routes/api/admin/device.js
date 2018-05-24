@@ -10,7 +10,7 @@ router.get('/remove', check_admin_login, async (req, res, next) => {
   // remove device
   let _gw_id = req.query.gw_id;
   let admin = await admin_model.update(
-    { username: 'admin' },
+    { username: req.session.user },
     { '$pull':
       { devices: { gw_id: _gw_id } }
   });
@@ -21,9 +21,9 @@ router.post('/', check_admin_login, async (req, res, next) => {
   let _device = req.body;
 
   if (_device.type === 'update') {
-    await safe_update_device(_device);
+    await safe_update_device(_device, req.session.user);
   } else if (_device.type === 'insert') {
-    let status = await safe_insert_device(_device);
+    let status = await safe_insert_device(_device, req.session.user);
     if (status) {
       // success
       req.flash('success', { msg: 'Successful' });

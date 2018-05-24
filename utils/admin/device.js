@@ -1,15 +1,15 @@
 const admin_model = require('../db/model/admin');
 
-const _safe_insert_device = async (device) => {
+const _safe_insert_device = async (device, _username) => {
   // check if gw_id exists
-  let _device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': device.gw_id });
+  let _device = await admin_model.findOne({ username: _username, 'devices.gw_id': device.gw_id });
   if (_device) {
     // do nothing but reject
     return false;
   } else {
     // update devices subdoc
     // if not exists, add it to db
-    await admin_model.findOneAndUpdate({ username: 'admin' }, {
+    await admin_model.findOneAndUpdate({ username: _username }, {
       '$push': {
         'devices': {
           gw_id: device.gw_id,
@@ -26,15 +26,15 @@ const _safe_insert_device = async (device) => {
   }
 }
 
-const _safe_update_device = async (device) => {
+const _safe_update_device = async (device, _username) => {
 
-  let _new_device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': device.gw_id });
+  let _new_device = await admin_model.findOne({ username: _username, 'devices.gw_id': device.gw_id });
   if (_new_device && device.gw_id != device.origin_gw_id) {
     // gw_id has been taken
     return false;
   } else {
     await admin_model.findOneAndUpdate(
-      { username: 'admin', 'devices.gw_id': device.origin_gw_id },
+      { username: _username, 'devices.gw_id': device.origin_gw_id },
       {
         '$set': {
           'devices.$.gw_id': device.gw_id,
