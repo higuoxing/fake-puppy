@@ -5,7 +5,7 @@ const _get_index_info = async (_username) => {
 
   let _indef_info = {
     active_user: await user_model.find({ state: 'activate' }).exec(),
-    device_info: await admin_model.findOne({ username: _username }).exec(),
+    device_info: await admin_model.findOne({ username: 'admin' }).exec(),
     all_user: await user_model.find({ '$or': [{ state: 'activate' }, { state: 'pending' }] }).exec()
   }
 
