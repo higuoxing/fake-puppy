@@ -2,7 +2,7 @@ doctype html
 html
   head
     include ../includes/_head.pug
-    title Login
+    title First Time Register
 
   body
     link(rel = 'stylesheet' href = '/stylesheets/main.css')
@@ -12,10 +12,10 @@ html
     section.login-content
 
       .login-box
-        form.login-form(action = '/api/admin/login', method = 'post', onsubmit='encript_form()')
+        form.login-form(action = '/api/admin/register', method = 'post', onsubmit='encrypt_form()')
           h3.login-head
             i.fa.fa-lg.fa-fw.fa-user
-            | SIGN IN
+            | First Time Register
           .form-group
             label.control-label USERNAME
             input.form-control(type = 'text', name = 'username', placeholder = 'Username', required = '', autofocus = '')
@@ -23,30 +23,32 @@ html
           .form-group
             label.control-label PASSWORD
             input.form-control(id = 'password', type = 'password', name = 'password', placeholder = 'Password', required = '', autofocus = '')
-
           .form-group
-            .utility
-              .animated-checkbox
-                label
-                  input(type = 'checkbox', name = 'rememberme')
-                  span.label-text Stay Signed in
-
+            input.form-control(id = 'repassword', type = 'password', name = 'repassword', placeholder = 'Re-input Password', required = '', autofocus = '')
+          .form-group
+            input.form-control(id = 'salt', type = 'text', name = 'salt', style = 'display: none;', value = salt)
           .form-group.btn-container
             button(type = 'submit').btn.btn-primary.btn-block
               i.fa.fa-sign-in.fa-lg.fa-fw
-              | SIGN IN
+              | Register
       .alert-wrapper-div(style = 'min-width: 350px')
-        - if (error)
+        - if (error) {
             div(class='alert alert-danger', role='alert')
               strong #{error}
-        - if (success)
-            div(class='alert alert-success', role='alert')
-              strong #{success}
-              
+        - }
+        
   script(src='https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js')
   script.
-    function encript_form() {
+    function encrypt_form () {
       let passwd = document.getElementById('password');
-      passwd.value = md5(passwd.value);
+      let repasswd = document.getElementById('repassword');
+      passwd.value = encrypt_passwd(passwd.value.toString());
+      repassword.value = encrypt_passwd(repasswd.value.toString());
       return true;
+    }
+    
+    function encrypt_passwd(passwd) {
+      let passwd_md5 = md5(passwd);
+      let passwd_salt = md5(passwd_md5 + '#{salt}');
+      return passwd_salt;
     }

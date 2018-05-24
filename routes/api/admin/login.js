@@ -11,13 +11,20 @@ router.post('/', async (req, res, next) => {
     req.flash('error', 'Please input username and password');
   } else {
     // check username and password
-    if (await check_admin({ username: _username, password: _password })) {
+    let _check = await check_admin({
+      username: _username,
+      password: _password,
+      sess_id: req.sessionID
+    });
+    if (_check === 'auth') {
       req.session.user = 'admin';
       req.flash('success', 'Welcome ~');
       res.redirect('/admin/panel');
-    } else {
+    } else if (_check === 'not-permitted'){
       req.flash('error', 'Incorrect username or password :( ');
       res.redirect('/admin/login');
+    } else if (_check === 'first-time-register') {
+      res.send('hello');
     }
   }
 });
