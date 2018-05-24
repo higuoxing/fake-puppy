@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const admin_model = require('../../../utils/db/model/admin');
-const check_admin = require('../../../utils/admin/login').check_admin;
+const insert_admin = require('../../../utils/db/access/admin').insert_admin;
 
 // check login form
 router.post('/', async (req, res, next) => {
@@ -13,11 +12,10 @@ router.post('/', async (req, res, next) => {
     req.flash('error', 'Two password should be same');
     res.redirect('/admin/register');
   } else {
-    await admin_model.create({
+    await insert_admin({
       username: _username,
       password: _password,
-      salt    : _salt,
-      devices : [ ]
+      salt    : _salt
     });
     req.session.user = _username;
     res.redirect('/admin/panel');

@@ -24,6 +24,7 @@ const admin_schema = new mongoose.Schema({
   username:  { type: String, require: true, unique: true },
   password:  { type: String, require: true },
   salt    :  { type: String, require: true },
+  role    :  { type: String, require: true },
   devices :  [ device_schema ]
 });
 

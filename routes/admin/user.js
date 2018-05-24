@@ -5,6 +5,8 @@ const check_admin = require('../../utils/admin/login').check_admin;
 const check_admin_login = require('../../middlewares/check_login').check_admin_login;
 const _socket_conf = require('../../configs/default').socket_conf;
 
+// FIXME:!
+
 // get active users
 router.get('/active', check_admin_login, async (req, res, next) => {
   let _users = await user_model.find({ state: 'activate' }).exec();

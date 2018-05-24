@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const admin_model = require('../../utils/db/model/admin');
-const check_admin = require('../../utils/admin/login').check_admin;
-const check_admin_login = require('../../middlewares/check_login').check_admin_login;
+const check_admin_exist = require('../../utils/db/access/admin').check_admin_exist;
 
 router.get('/', async (req, res, next) => {
   if (req.session.user) {
     res.redirect('/admin/panel');
   } else {
     // not log in
-    if ((await admin_model.find()).length < 1) {
-      res.redirect('/admin/register');
-    } else {
+    let _check_admin_exist = await check_admin_exist();
+    if (_check_admin_exist) {
       res.render('admin/login');
+    } else {
+      res.redirect('/admin/register');
     }
   }
 });
