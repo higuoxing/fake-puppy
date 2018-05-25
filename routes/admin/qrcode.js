@@ -11,6 +11,7 @@ router.get('/', check_admin_login, async (req, res, next) => {
   let _qrcode     = await gen_qrcode({ gw_id: _gw_id });
   let _index_info = await get_index_info();
   let _devices    = await get_all_devices();
+  console.log(_qrcode);
   res.render('admin/qrcode', {
     qrcode      : _qrcode     ,
     devices     : _devices    ,

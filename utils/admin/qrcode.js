@@ -19,14 +19,14 @@ const _gen_qrcode = async (device) => {
       // no specific device
       _device = devices[0];
     }
-
+    
     // query pending_users
     let pending_users = await get_pending_users();
 
     if (pending_users.length > 0) {
       // pending users exist
       let hash = pending_users[0].token;
-      let url = `http://${_device.addr}:${_device.port}/wifidog/auth?token=${hash}`;
+      let url = `http://${_device.gw_addr}:${_device.gw_port}/wifidog/auth?token=${hash}`;
       return {
         qrcode     : await qrCode.toDataURL(url) ,
         url        : url                         ,
@@ -41,7 +41,7 @@ const _gen_qrcode = async (device) => {
       let current_date = (new Date()).valueOf().toString();
       let random = Math.random().toString();
       let hash = crypto.createHash('sha1').update(current_date + random).digest('hex').slice(32);
-      let url = `http://${_device.addr}:${_device.port}/wifidog/auth?token=${hash}`;
+      let url = `http://${_device.gw_addr}:${_device.gw_port}/wifidog/auth?token=${hash}`;
       let status = await insert_one_user({
         mac_addr: ''     ,
         ip_addr: ''      ,
