@@ -4,11 +4,12 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('./app/app').app;
+const session = require('./app/app').session;
 const debug = require('debug')('fake-puppy:server');
 const http = require('http');
-const configs = require('../configs/default');
-const socket_router = require('../sockets/socket').socket_router;
+const configs = require('./configs/default');
+const socket_router = require('./sockets/socket').socket_router;
 
 /**
  * Get port from environment and store in Express.
@@ -20,8 +21,11 @@ app.set('port', port);
 // HTTP server
 // Socket.IO
 const server = http.createServer(app);
-const io = require('socket.io')(server);
+const sio = require('socket.io')(server);
 
+sio.use((socket, next) => {
+    session(socket.request, socket.request.res, next);
+});
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -90,7 +94,7 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-io.on('connection', function (socket) {
+sio.on('connection', function (socket) {
   // hand shake and listen
   socket.emit('loading', { data: 'ping' });
   socket_router(socket);

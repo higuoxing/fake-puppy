@@ -3,24 +3,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const config = require('./configs/default');
-const session = require('express-session');       // express session
+const config = require('../configs/default');
+const _session = require('express-session');       // express session
 const flash = require('connect-flash');           // flush
-const router = require('./routes/router');        // router
+const router = require('../routes/router');        // router
 
-const app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(session({
+const session = _session({
   name: config.session.key,        // session-id name
   secret: config.session.secret,   // secret-hash
   resave: config.session.resave,   // force to fresh session id
@@ -28,7 +16,21 @@ app.use(session({
   cookie: {
     maxAge: config.session.maxAge
   }
-}));
+});
+
+const app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'pug');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, '../public')));
+
+app.use(session);
 
 app.use(flash());
 
@@ -59,4 +61,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {
+  app: app,
+  session: session
+}
