@@ -1,4 +1,4 @@
-const admin_model = require('../db/model/admin');
+const admin_model  = require('../db/model/admin');
 const _socket_conf = require('../../configs/default').socket_conf;
 
 module.exports = {

@@ -13,7 +13,7 @@ const user_schema = new mongoose.Schema({
   mac_addr       : { type: String },                  // mac address
   ip_addr        : { type: String },                  // ip address
   token          : { type: String, unique: true },    // token
-  state          : { type: String },                  // activate
+  state          : { type: String },                  // active or pending
   gw_id          : { type: String },                  // gateway id
   incoming       : [ Number ],                        // incoming
   outgoing       : [ Number ],                        // outgoing

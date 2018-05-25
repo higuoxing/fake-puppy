@@ -1,10 +1,12 @@
 const admin_model = require('../model/admin');
 
+// get admin user
 const _get_the_only_admin = async () => {
   let admin = await admin_model.findOne({ role: 'admin' });
   return admin;
 }
 
+// test if admin exists
 const _check_admin_exist = async () => {
   let admin = await admin_model.findOne({ role: 'admin' }).exec();
   if (admin) {
@@ -14,6 +16,7 @@ const _check_admin_exist = async () => {
   }
 }
 
+// insert admin when register
 const _insert_admin = async (admin) => {
   await admin_model.create({
     username: admin.username      ,
@@ -24,6 +27,7 @@ const _insert_admin = async (admin) => {
   });
 }
 
+// get all devices
 const _get_all_devices = async () => {
   let admin = await admin_model.findOne({ role: 'admin' });
   if (admin) {
@@ -35,6 +39,7 @@ const _get_all_devices = async () => {
   }
 }
 
+// get specific device by gw_id
 const _get_specific_device = async (device) => {
   let admin = await admin_model.findOne({
     role: 'admin',
@@ -43,6 +48,7 @@ const _get_specific_device = async (device) => {
   return admin.devices[0];
 }
 
+// test if devices exist
 const _check_device_exist = async (device) => {
   let admin = await admin_model.findOne({
     role: 'admin',
@@ -55,6 +61,7 @@ const _check_device_exist = async (device) => {
   }
 }
 
+// insert device
 const _insert_device = async (device) => {
   let _device = await _check_device_exist(device);
   if (_device) {
@@ -81,6 +88,7 @@ const _insert_device = async (device) => {
   }
 }
 
+// update a specific device by gw_id
 const _update_specific_device = async (device, origin_device) => {
   let new_device = await admin_model.findOne({
     role: 'admin',
@@ -103,6 +111,7 @@ const _update_specific_device = async (device, origin_device) => {
   }
 }
 
+// remove a specific device by gw_id
 const _remove_specific_device = async (device) => {
   try {
     await admin_model.update({ role: 'admin' },

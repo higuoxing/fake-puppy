@@ -13,7 +13,7 @@ const _auth = async (auth_req_msg) => {
         let _user_update = {
           mac_addr: auth_req_msg.mac,
           ip_addr: auth_req_msg.ip,
-          state: 'activate',
+          state: 'active',
 
           // initialise array
           incoming: [ parseInt(auth_req_msg.incoming) ],
@@ -35,7 +35,7 @@ const _auth = async (auth_req_msg) => {
     // update db and return 1;
     let user = await user_model.findOne({ token: auth_req_msg.token }).exec();
     if (user) {
-      if (user.state === 'activate') {
+      if (user.state === 'active') {
         // if user is active
         await user_model.findOneAndUpdate(
           { token: auth_req_msg.token },

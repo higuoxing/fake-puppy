@@ -5,7 +5,7 @@ module.exports = {
   _on_user_mount: (data, socket) => {
     let send_data_interval = setInterval(async () => {
       // set time interval
-      let _active_user = await user_model.find({ state: 'activate' }).exec();
+      let _active_user = await user_model.find({ state: 'active' }).exec();
       if (_active_user) {
         // if active users exist
         socket.emit('user-data-outgoing', { active_user: _active_user });

@@ -1,5 +1,6 @@
 const user_model = require('../model/user');
 
+// create a token
 const _insert_one_user = async (user) => {
   try {
     await user_model.create(user);
@@ -9,22 +10,25 @@ const _insert_one_user = async (user) => {
   }
 }
 
+// get all users (active and pending)
 const _get_all_users = async () => {
   let users = await user_model.find({
     '$or': [
-      { state: 'activate' },
+      { state: 'active' },
       { state: 'pending' } ]
   });
   return users;
 }
 
+// get all users (active)
 const _get_active_users = async () => {
   let users = await user_model.find({
-    state: 'activate'
+    state: 'active'
   });
   return users;
 }
 
+// get all users of specific device
 const _get_users_of_specific_device = async (device) => {
   let users = await user_model.find({
     gw_id : device.gw_id
@@ -32,6 +36,7 @@ const _get_users_of_specific_device = async (device) => {
   return users;
 }
 
+// get all users (pending)
 const _get_pending_users = async () => {
   let users = await user_model.find({
     state: 'pending'
@@ -39,6 +44,7 @@ const _get_pending_users = async () => {
   return users;
 }
 
+// remove a specific user
 const _remove_specific_user = async (user) => {
   try {
     await user_model.remove(user);
@@ -48,6 +54,7 @@ const _remove_specific_user = async (user) => {
   }
 }
 
+// kick out one user by token
 const _kickout_specific_user = async (user) => {
   try {
     await user_model.findOneAndUpdate(user, {
