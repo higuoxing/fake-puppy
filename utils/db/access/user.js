@@ -25,6 +25,13 @@ const _get_active_users = async () => {
   return users;
 }
 
+const _get_users_of_specific_device = async (device) => {
+  let users = await user_model.find({
+    gw_id : device.gw_id
+  });
+  return users;
+}
+
 const _get_pending_users = async () => {
   let users = await user_model.find({
     state: 'pending'
@@ -58,10 +65,11 @@ const _kickout_specific_user = async (user) => {
 }
 
 module.exports = {
-  insert_one_user       : _insert_one_user       ,
-  get_all_users         : _get_all_users         ,
-  get_active_users      : _get_active_users      ,
-  get_pending_users     : _get_pending_users     ,
-  remove_specific_user  : _remove_specific_user  ,
-  kickout_specific_user : _kickout_specific_user ,
+  insert_one_user              : _insert_one_user              ,
+  get_all_users                : _get_all_users                ,
+  get_active_users             : _get_active_users             ,
+  get_users_of_specific_device : _get_users_of_specific_device ,
+  get_pending_users            : _get_pending_users            ,
+  remove_specific_user         : _remove_specific_user         ,
+  kickout_specific_user        : _kickout_specific_user        ,
 }

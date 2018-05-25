@@ -23,7 +23,7 @@ block content
       .widget-small.primary.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user/all').h4 Total Guests
+          a(href = '/admin/user?sort=all').h4 Total Guests
           p
             - if (index_info) {
                 b #{index_info.all_users.length}
@@ -35,7 +35,7 @@ block content
       .widget-small.info.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user/active').h4 Oneline Guests
+          a(href = '/admin/user?sort=active').h4 Oneline Guests
           p
             - if (index_info) {
                 b #{index_info.active_users.length}

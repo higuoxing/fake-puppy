@@ -74,7 +74,7 @@ block content
                               td 
                                 button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn Update Config
                               td
-                                a(href = `/admin/user/device?gw_id=${device.gw_id}`) 
+                                a(href = `/admin/user?sort=device&gw_id=${device.gw_id}`) 
                                   span.badge.badge-info.btn View Users
                               td 
                                 a(href = `/api/admin/device?type=remove&gw_id=${device.gw_id}`)

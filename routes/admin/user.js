@@ -1,29 +1,37 @@
-const express = require('express');
-const router = express.Router();
-const user_model = require('../../utils/db/model/user');
-const check_admin = require('../../utils/admin/login').check_admin;
-const check_admin_login = require('../../middlewares/check_login').check_admin_login;
-const _socket_conf = require('../../configs/default').socket_conf;
-
-// FIXME:!
+const express                      = require('express');
+const router                       = express.Router();
+const check_admin_login            = require('../../middlewares/check_login').check_admin_login;
+const _socket_conf                 = require('../../configs/default').socket_conf;
+const get_active_users             = require('../../utils/db/access/user').get_active_users;
+const get_all_users                = require('../../utils/db/access/user').get_all_users;
+const get_users_of_specific_device = require('../../utils/db/access/user').get_users_of_specific_device;
 
 // get active users
-router.get('/active', check_admin_login, async (req, res, next) => {
-  let _users = await user_model.find({ state: 'activate' }).exec();
-  res.render('admin/user', { users: _users, socket_conf: _socket_conf, live_display: true });
-});
-
-// get all users
-router.get('/all', check_admin_login, async (req, res, next) => {
-  let _users = await user_model.find({ '$or': [{ state: 'activate' }, { state: 'pending' }] }).exec();
-  res.render('admin/user', { users: _users, socket_conf: _socket_conf, live_display: false });
-});
-
-// get users of some device
-router.get('/device', check_admin_login, async (req, res, next) => {
-  let _gw_id = req.query.gw_id;
-  let _users = await user_model.find({ gw_id: _gw_id }).exec();
-  res.render('admin/user', { users: _users, socket_conf: _socket_conf, live_display: true });
+router.get('/', check_admin_login, async (req, res, next) => {
+  if (req.query.sort === 'active') {
+    let _users = await get_active_users();
+    res.render('admin/user', {
+      users        : _users       ,
+      socket_conf  : _socket_conf ,
+      live_display : true         ,
+    });
+  } else if (req.query.sort === 'all') {
+    let _users = await get_all_users();
+    res.render('admin/user', {
+      users        : _users       ,
+      socket_conf  : _socket_conf ,
+      live_display : false        ,
+    });
+  } else if (req.query.sort === 'device') {
+    let _users = await get_users_of_specific_device({
+      gw_id        : req.query.gw_id
+    });
+    res.render('admin/user', {
+      users        : _users       ,
+      socket_conf  : _socket_conf ,
+      live_display : true         ,
+    });
+  }
 });
 
 module.exports = router
