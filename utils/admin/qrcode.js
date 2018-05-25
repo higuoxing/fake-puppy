@@ -1,60 +1,76 @@
-const crypto = require('crypto');
-const qrCode = require('qrcode');
-const user_model = require('../db/model/user');
-const admin_model = require('../db/model/admin');
-const get_index_info = require('./panel').get_index_info;
+const crypto              = require('crypto');
+const qrCode              = require('qrcode');
+const get_all_devices     = require('../db/access/admin').get_all_devices;
+const get_specific_device = require('../db/access/admin').get_specific_device;
+const insert_one_user     = require('../db/access/user').insert_one_user;
+const get_pending_users   = require('../db/access/user').get_pending_users;
 
-const _gen_qrcode = async (gw_id, _username) => {
+const _gen_qrcode = async (device) => {
 
-  // share link
-  let unused_hash = await user_model.find({ state: 'pending' }).exec();
-  let hash = null;
-  let url = null;
-  let device = null;
+  let devices = await get_all_devices();
+  let _device = null;
 
-  if (gw_id) {
-    // gw_id exists
-    device = (await admin_model.findOne({
-      username: _username,
-      'devices.gw_id': gw_id
-    }, {
-      'devices.$': 1
-    })).devices[0];
+  if (devices.length > 0) {
+    // devices exist
+    if (device.gw_id) {
+      // specific device
+      _device = await get_specific_device(device);
+    } else {
+      // no specific device
+      _device = devices[0];
+    }
+
+    // query pending_users
+    let pending_users = await get_pending_users();
+
+    if (pending_users.length > 0) {
+      // pending users exist
+      let hash = pending_users[0].token;
+      let url = `http://${_device.addr}:${_device.port}/wifidog/auth?token=${hash}`;
+      return {
+        qrcode     : await qrCode.toDataURL(url) ,
+        url        : url                         ,
+        token      : hash                        ,
+        active     : _device.gw_id               ,
+        status     : true
+      };
+
+    } else {
+      // there's no pending users
+      // create one
+      let current_date = (new Date()).valueOf().toString();
+      let random = Math.random().toString();
+      let hash = crypto.createHash('sha1').update(current_date + random).digest('hex').slice(32);
+      let url = `http://${_device.addr}:${_device.port}/wifidog/auth?token=${hash}`;
+      let status = await insert_one_user({
+        mac_addr: ''     ,
+        ip_addr: ''      ,
+        token: hash      ,
+        state: 'pending' ,
+        gw_id: ''        ,
+        incoming: [ 0 ]  ,
+        outgoing: [ 0 ]
+      });
+
+      if (status) {
+        // create success
+        return {
+          qrcode     : await qrCode.toDataURL(url) ,
+          url        : url                         ,
+          token      : hash                        ,
+          active     : _device.gw_id               ,
+          status     : true
+        };
+
+      } else {
+        // create failed
+        return { status: false };
+      }
+    }
   } else {
-    // gw_id not exists
-    device = (await admin_model.findOne({ username: _username })).devices[0];
+    // devices not exist
+    return { status : false };
   }
-
-  if (unused_hash[0]) {
-    // unused hash
-    hash = unused_hash[0].token;
-    url = `http://${device.gw_addr}:${device.gw_port}/wifidog/auth?token=${hash}`;
-  } else {
-    // generate hash code and add to db
-    let current_date = (new Date()).valueOf().toString();
-    let random = Math.random().toString();
-    hash = crypto.createHash('sha1').update(current_date + random).digest('hex').slice(32);
-    url = `http://${device.addr}:${device.port}/wifidog/auth?token=${hash}`;
-    await user_model.create({
-      mac_addr: '',
-      ip_addr: '',
-      token: hash,
-      state: 'pending',
-      gw_id: '',
-      incoming: [ 0 ],
-      outgoing: [ 0 ]
-    });
-  }
-
-  let _index_info = await get_index_info();
-
-  return {
-    qrcode     : await qrCode.toDataURL(url),
-    url        : url,
-    index_info : _index_info,
-    token      : hash,
-    active     : device.gw_id
-  };
 }
 
 module.exports = {

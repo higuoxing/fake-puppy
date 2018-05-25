@@ -1,5 +1,14 @@
 const user_model = require('../model/user');
 
+const _insert_one_user = async (user) => {
+  try {
+    await user_model.create(user);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 const _get_all_users = async () => {
   let users = await user_model.find({
     '$or': [
@@ -12,6 +21,13 @@ const _get_all_users = async () => {
 const _get_active_users = async () => {
   let users = await user_model.find({
     state: 'activate'
+  });
+  return users;
+}
+
+const _get_pending_users = async () => {
+  let users = await user_model.find({
+    state: 'pending'
   });
   return users;
 }
@@ -42,8 +58,10 @@ const _kickout_specific_user = async (user) => {
 }
 
 module.exports = {
-  get_all_users         : _get_all_users,
-  get_active_users      : _get_active_users,
-  remove_specific_user  : _remove_specific_user,
-  kickout_specific_user : _kickout_specific_user,
+  insert_one_user       : _insert_one_user       ,
+  get_all_users         : _get_all_users         ,
+  get_active_users      : _get_active_users      ,
+  get_pending_users     : _get_pending_users     ,
+  remove_specific_user  : _remove_specific_user  ,
+  kickout_specific_user : _kickout_specific_user ,
 }

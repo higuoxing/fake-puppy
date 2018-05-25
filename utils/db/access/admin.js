@@ -26,7 +26,13 @@ const _insert_admin = async (admin) => {
 
 const _get_all_devices = async () => {
   let admin = await admin_model.findOne({ role: 'admin' });
-  return admin.devices;
+  if (admin) {
+    // admin exists
+    return admin.devices;
+  } else {
+    // admin not exists
+    return null;
+  }
 }
 
 const _get_specific_device = async (device) => {
@@ -50,7 +56,7 @@ const _check_device_exist = async (device) => {
 }
 
 const _insert_device = async (device) => {
-  let _device = await _check_device_exist(device.gw_id);
+  let _device = await _check_device_exist(device);
   if (_device) {
     // device has already existed
     // do nothing but reject
