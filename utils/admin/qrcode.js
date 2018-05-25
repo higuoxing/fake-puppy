@@ -19,7 +19,7 @@ const _gen_qrcode = async (device) => {
       // no specific device
       _device = devices[0];
     }
-    
+
     // query pending_users
     let pending_users = await get_pending_users();
 

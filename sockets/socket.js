@@ -6,11 +6,8 @@ module.exports = {
 
     // socket should be registered here
     let admin = socket.request.session.user;
-    if (admin) {
-      if (admin.role === 'admin') {
-        socket.on('user-connection',   (data) => { _on_user_mount(data, socket, admin  ); });
-        socket.on('device-connection', (data) => { _on_device_mount(data, socket, admin); });
-      }
-    }
+
+    socket.on('user-connection',   (data) => { _on_user_mount(data, socket, admin  ); });
+    socket.on('device-connection', (data) => { _on_device_mount(data, socket, admin); });
   }
 }

@@ -2,7 +2,7 @@ const user_model = require('../db/model/user');
 const _socket_conf = require('../../configs/default').socket_conf;
 
 module.exports = {
-  _on_user_mount: (data, socket, admin) => {
+  _on_user_mount: (data, socket) => {
     let send_data_interval = setInterval(async () => {
       // set time interval
       let _active_user = await user_model.find({ state: 'active' }).exec();
