@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express           = require('express');
+const router            = express.Router();
 const check_admin_exist = require('../../utils/db/access/admin').check_admin_exist;
 
 router.get('/', async (req, res, next) => {
