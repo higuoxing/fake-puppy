@@ -3,11 +3,14 @@ const admin_model = require('../db/model/admin');
 const _pong = async (ping_msg) => {
 
   let gw_id = ping_msg.gw_id;
-  let device = await admin_model.findOne({ username: 'admin', 'devices.gw_id': gw_id }).exec();
+  let device = await admin_model.findOne({
+    role: 'admin',
+    'devices.gw_id': gw_id
+  });
   if (device) {
     // device has registered
     await admin_model.findOneAndUpdate({
-      username: 'admin',
+      role: 'admin',
       'devices.gw_id': gw_id
     }, {
       'devices.$.sys_uptime': ping_msg.sys_uptime,
@@ -16,7 +19,7 @@ const _pong = async (ping_msg) => {
         'devices.$.sys_memfree': ping_msg.sys_memfree,
         'devices.$.sys_load': ping_msg.sys_load
       }
-    }).exec();
+    });
 
     return 'Pong';
   } else {
