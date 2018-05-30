@@ -47,6 +47,6 @@ html
   script.
     function encript_form() {
       let passwd = document.getElementById('password');
-      passwd.value = md5(passwd.value);
+      passwd.value = md5(md5(md5(passwd.value) + '#{salt}') + '#{sess_id}');
       return true;
     }
