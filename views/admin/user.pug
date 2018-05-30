@@ -5,14 +5,14 @@ block variables
   - var activeGroup = 'tables'
 
 block title
-  title Users
+  title 用户
 
 block content
   .app-title
     div
       h1
         i.fa.fa-th-list
-        |  Users
+        |  用户
 
     ul.app-breadcrumb.breadcrumb
       li.breadcrumb-item
@@ -26,12 +26,12 @@ block content
       .row
         .col-md-6
           .tile
-            h4 &nbsp&nbsp Outgoing Data Flow
+            h4 &nbsp&nbsp 上传流量
             div(id = 'graph-outgoing', style = 'width: inherit')
               
         .col-md-6
           .tile
-            h4 &nbsp&nbsp Incoming Data Flow
+            h4 &nbsp&nbsp 下载流量
             div(id = 'graph-incoming', style = 'width: inherit')
   - }
   
@@ -42,14 +42,14 @@ block content
             thead
               tr
                 th # 
-                th State
-                th IP Address
-                th Mac Address
-                th Gateway ID
+                th 状态
+                th IP 地址
+                th Mac 地址
+                th 网关 ID
                 th Token
-                th Incoming
-                th Outgoing
-                th Operation
+                th 下载流量
+                th 上传流量
+                th 操作
                 th -
                 
             tbody
@@ -71,9 +71,9 @@ block content
                       td(id=`${user.token}_incoming`) #{user.incoming[user.incoming.length-1]}
                       td(id=`${user.token}_outgoing`) #{user.outgoing[user.outgoing.length-1]}
                       td
-                        a.btn.badge.badge-danger(href = `/api/admin/user/update?action=kickout&token=${user.token}`) Kick out
+                        a.btn.badge.badge-danger(href = `/api/admin/user/update?action=kickout&token=${user.token}`) 踢出用户
                       td
-                        a.btn.badge.badge-danger(href = `/api/admin/user/update?action=remove&token=${user.token}`) Remove  
+                        a.btn.badge.badge-danger(href = `/api/admin/user/update?action=remove&token=${user.token}`) 移除用户  
               -   });
               - } else {
                     p Oops, no user yet!

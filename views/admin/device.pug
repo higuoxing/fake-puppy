@@ -5,14 +5,14 @@ block variables
   - var activeGroup = 'tables'
 
 block title
-  title Devices
+  title 设备
 
 block content
   .app-title
     div
       h1
         i.fa.fa-th-list
-        |  My Devices
+        |  我的设备
 
     ul.app-breadcrumb.breadcrumb
       li.breadcrumb-item
@@ -20,35 +20,35 @@ block content
       li.breadcrumb-item
         | Tables
       li.breadcrumb-item.active
-        a(href="#") Devices
+        a(href="#") 设备
         
   .row
     .col-md-6
       .tile
-        h4 &nbsp&nbsp System Load
+        h4 &nbsp&nbsp 设备负载
         div(id = 'graph-sys-load', style = 'width: inherit')
           
     .col-md-6
       .tile
-        h4 &nbsp&nbsp Free Memory
+        h4 &nbsp&nbsp 剩余内存
         div(id = 'graph-mem-free', style = 'width: inherit')
 
   .row
     .col-md-12
       .tile
-        h3.tile-title My Devices
+        h3.tile-title 我的设备
         .table-responsive
             table.table
               thead
                 tr
-                  th State
-                  th Gateway ID
-                  th Gateway Address
-                  th Gateway Port
-                  th System Uptime
-                  th Free Memory
-                  th CPU Load
-                  th Operations
+                  th 状态
+                  th 网关 ID
+                  th 网关 IP
+                  th 网关 端口
+                  th 运行时间
+                  th 剩余内存
+                  th 系统负载
+                  th 操作
                   th --
                   th --
                   
@@ -75,10 +75,10 @@ block content
                                 button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn Update Config
                               td
                                 a(href = `/admin/user?sort=device&gw_id=${device.gw_id}`) 
-                                  span.badge.badge-info.btn View Users
+                                  span.badge.badge-info.btn 此设备的用户
                               td 
                                 a(href = `/api/admin/device?type=remove&gw_id=${device.gw_id}`)
-                                  span.badge.badge-danger.btn Remove Device
+                                  span.badge.badge-danger.btn 移除设备
                   -   });
                   - } else {
                       p Oops, no device yet!  
@@ -88,7 +88,7 @@ block content
                       tbody
                         tr
                           td 
-                            span.badge.badge-info New 
+                            span.badge.badge-info 新的设备 
                           td 
                             input(name='gw_id', value = '233', required='', autofocus='')
                           td 
@@ -99,7 +99,7 @@ block content
                           td --
                           td --
                           td 
-                            button.btn.badge.badge-info(type='submit') Insert Device
+                            button.btn.badge.badge-info(type='submit') 添加设备
                           td
                             span --
                           td 

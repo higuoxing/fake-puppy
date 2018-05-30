@@ -15,13 +15,13 @@ html
         form.login-form(action = '/api/admin/login', method = 'post', onsubmit='encript_form()')
           h3.login-head
             i.fa.fa-lg.fa-fw.fa-user
-            | SIGN IN
+            | 登录
           .form-group
-            label.control-label USERNAME
+            label.control-label 用户名
             input.form-control(type = 'text', name = 'username', placeholder = 'Username', required = '', autofocus = '')
 
           .form-group
-            label.control-label PASSWORD
+            label.control-label 密码
             input.form-control(id = 'password', type = 'password', name = 'password', placeholder = 'Password', required = '', autofocus = '')
 
           .form-group
@@ -29,12 +29,12 @@ html
               .animated-checkbox
                 label
                   input(type = 'checkbox', name = 'rememberme')
-                  span.label-text Stay Signed in
+                  span.label-text 记住我
 
           .form-group.btn-container
             button(type = 'submit').btn.btn-primary.btn-block
               i.fa.fa-sign-in.fa-lg.fa-fw
-              | SIGN IN
+              | 登录
       .alert-wrapper-div(style = 'min-width: 350px')
         - if (error)
             div(class='alert alert-danger', role='alert')

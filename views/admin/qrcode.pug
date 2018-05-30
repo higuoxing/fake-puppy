@@ -9,21 +9,21 @@ block content
     div
       h1
         i.fa.fa-dashboard
-        |  Fake Puppy
-      p Auth server dashboard for wifi-dog
+        |  Portal 认证服务器
+      p 信息安全竞赛
 
     ul.app-breadcrumb.breadcrumb
       li.breadcrumb-item
         i.fa.fa-home.fa-lg
       li.breadcrumb-item
-        a(href='#') Dashboard
+        a(href='#') 控制面板
 
   .row
     .col-md-6.col-lg-3
       .widget-small.primary.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user?sort=all').h4 Total Guests
+          a(href = '/admin/user?sort=all').h4 所有用户
           p
             - if (index_info) {
                 b #{index_info.all_users.length}
@@ -35,7 +35,7 @@ block content
       .widget-small.info.coloured-icon
         i.icon.fa.fa-users.fa-3x
         div.info
-          a(href = '/admin/user?sort=active').h4 Oneline Guests
+          a(href = '/admin/user?sort=active').h4 在线用户
           p
             - if (index_info) {
                 b #{index_info.active_users.length}
@@ -47,7 +47,7 @@ block content
       .widget-small.warning.coloured-icon
         i.icon.fa.fa-wifi.fa-3x
         div.info
-          a(href = '/admin/device').h4 My Devices
+          a(href = '/admin/device').h4 我的设备
           p
             - if (index_info) {
                 b #{index_info.all_devices.length}
@@ -60,17 +60,17 @@ block content
       .widget-small.danger.coloured-icon
         i.icon.fa.fa-qrcode.fa-3x
         div.info
-          a(href = '/admin/qrcode').h4 Share NetWork
+          a(href = '/admin/qrcode').h4 分享网络
 
   .row
 
     .col-md-4
       .tile
-        h3.title QR-Code for Guests
+        h3.title 二维码生成
         form#gateway-sel(action='/admin/qrcode', method='get')
           .form-group
-            label(for='gw_id') Gateway ID &nbsp
-              button.badge.badge-info(type='submit', form='gateway-sel') Generate
+            label(for='gw_id') 网关 ID &nbsp
+              button.badge.badge-info(type='submit', form='gateway-sel') 生成
             select#gw_id.form-control(name='gw_id')
               - if (devices) {
               -   devices.forEach((device) => {
@@ -83,9 +83,9 @@ block content
               - }
             
           - if (qrcode.status) {
-              strong Auth Token: #{qrcode.token}
+              strong 认证 Token: #{qrcode.token}
           - } else {
-              strong You have not had a device
+              strong 你还没有注册一个设备！
           - }
           br
           - if (qrcode.status)

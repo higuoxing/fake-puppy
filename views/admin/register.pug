@@ -2,7 +2,7 @@ doctype html
 html
   head
     include ../includes/_head.pug
-    title First Time Register
+    title 第一次使用
 
   body
     link(rel = 'stylesheet' href = '/stylesheets/main.css')
@@ -15,13 +15,13 @@ html
         form.login-form(action = '/api/admin/register', method = 'post', onsubmit='encrypt_form()')
           h3.login-head
             i.fa.fa-lg.fa-fw.fa-user
-            | First Time Register
+            | 注册一个用户
           .form-group
-            label.control-label USERNAME
+            label.control-label 用户名
             input.form-control(type = 'text', name = 'username', placeholder = 'Username', required = '', autofocus = '')
 
           .form-group
-            label.control-label PASSWORD
+            label.control-label 密码
             input.form-control(id = 'password', type = 'password', name = 'password', placeholder = 'Password', required = '', autofocus = '')
           .form-group
             input.form-control(id = 'repassword', type = 'password', name = 'repassword', placeholder = 'Re-input Password', required = '', autofocus = '')
@@ -30,7 +30,7 @@ html
           .form-group.btn-container
             button(type = 'submit').btn.btn-primary.btn-block
               i.fa.fa-sign-in.fa-lg.fa-fw
-              | Register
+              | 注册
       .alert-wrapper-div(style = 'min-width: 350px')
         - if (error) {
             div(class='alert alert-danger', role='alert')
