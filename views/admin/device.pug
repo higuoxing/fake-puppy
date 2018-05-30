@@ -72,7 +72,7 @@ block content
                               td(id=`${device.gw_id}_sys_memfree`) #{device.sys_memfree[device.sys_memfree.length-1]}
                               td(id=`${device.gw_id}_sys_load`) #{device.sys_load[device.sys_load.length-1]}
                               td 
-                                button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn Update Config
+                                button(type = 'submit', form=`${device.gw_id}`).span.badge.badge-info.btn 更新设置
                               td
                                 a(href = `/admin/user?sort=device&gw_id=${device.gw_id}`) 
                                   span.badge.badge-info.btn 此设备的用户
